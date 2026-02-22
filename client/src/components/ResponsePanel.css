@@ -1,0 +1,91 @@
+/* ── LinkedIn-style Toast Notifications ───────────────────────────────────── */
+.toast-container {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  /* LinkedIn shows toasts bottom-left */
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 360px;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  border-radius: 4px;
+  background: #1D2226;
+  /* LinkedIn dark toast */
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  animation: liSlideUp 0.25s ease-out;
+  font-size: 0.875rem;
+  font-weight: 500;
+  min-width: 280px;
+  border-left: 4px solid transparent;
+}
+
+@keyframes liSlideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.toast-success {
+  border-left-color: #57D9A3;
+  /* LinkedIn's green accent */
+}
+
+.toast-error {
+  border-left-color: #F87171;
+  /* soft red */
+}
+
+.toast-info {
+  border-left-color: #60A5FA;
+  /* soft blue */
+}
+
+.toast-warning {
+  border-left-color: #FBBF24;
+  /* amber */
+}
+
+.toast-close {
+  background: none;
+  border: none;
+  color: #A8A8A8;
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 16px;
+  line-height: 1;
+  transition: color 0.15s;
+  flex-shrink: 0;
+}
+
+.toast-close:hover {
+  color: #fff;
+}
+
+@media (max-width: 480px) {
+  .toast-container {
+    bottom: 16px;
+    left: 12px;
+    right: 12px;
+    max-width: none;
+  }
+
+  .toast {
+    min-width: auto;
+  }
+}

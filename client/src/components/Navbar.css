@@ -1,0 +1,199 @@
+/* ── LinkedIn-style Navbar ────────────────────────────────────────────────── */
+.navbar {
+  background-color: #fff;
+  border-bottom: 1px solid #E0DEDE;
+  padding: 0;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.navbar-container {
+  max-width: 1128px;
+  margin: 0 auto;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  height: 52px;
+  gap: 16px;
+}
+
+/* Logo */
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  /* Balanced spacing between logo and text */
+  text-decoration: none;
+  font-size: 1.4rem;
+  /* Professional size */
+  font-weight: 700;
+  color: #0A66C2;
+  letter-spacing: -0.2px;
+}
+
+.logo-img {
+  height: 28px;
+  /* Slightly more proportional */
+  width: auto;
+  display: block;
+}
+
+.navbar-logo:hover {
+  color: #004182;
+  text-decoration: none;
+}
+
+/* Nav Links area */
+.navbar-menu {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+  margin-left: 8px;
+}
+
+.nav-link {
+  color: #666;
+  text-decoration: none;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 4px;
+  transition: color 0.15s, background 0.15s;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+}
+
+.nav-link:hover {
+  color: #191919;
+  background: #F3F2EF;
+  text-decoration: none;
+}
+
+/* Sign Up / CTA button */
+.nav-link.signup-link {
+  background-color: transparent;
+  color: #0A66C2;
+  border: 1.5px solid #0A66C2;
+  border-radius: 24px;
+  padding: 5px 14px;
+  font-weight: 600;
+}
+
+.nav-link.signup-link:hover {
+  background-color: rgba(10, 102, 194, 0.08);
+  color: #0A66C2;
+}
+
+/* User Info section */
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+  padding-left: 16px;
+  border-left: 1px solid #E0DEDE;
+}
+
+.user-name {
+  color: #191919;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.logout-btn {
+  background-color: transparent;
+  color: #666;
+  border: 1.5px solid #C1C9D2;
+  padding: 5px 14px;
+  border-radius: 24px;
+  cursor: pointer;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  transition: all 0.15s;
+}
+
+.logout-btn:hover {
+  border-color: #CC1016;
+  color: #CC1016;
+  background-color: rgba(204, 16, 22, 0.05);
+}
+
+/* Hamburger */
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: #191919;
+  font-size: 1.3rem;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.menu-toggle:hover {
+  background: #F3F2EF;
+}
+
+/* ── Mobile ───────────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .navbar-container {
+    height: 48px;
+  }
+
+  .navbar-menu {
+    position: absolute;
+    top: 48px;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    background-color: #fff;
+    border-top: 1px solid #E0DEDE;
+    border-bottom: 1px solid #E0DEDE;
+    gap: 0;
+    margin-left: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.25s ease;
+    align-items: stretch;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  .navbar-menu.active {
+    max-height: 600px;
+  }
+
+  .nav-link {
+    padding: 14px 20px;
+    border-radius: 0;
+    border-bottom: 1px solid #F3F2EF;
+    font-size: 0.9375rem;
+  }
+
+  .user-info {
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-left: 0;
+    padding: 14px 20px;
+    border-left: none;
+    border-top: 1px solid #E0DEDE;
+    gap: 12px;
+  }
+
+  .logout-btn {
+    flex: 1;
+    text-align: center;
+  }
+
+  .menu-toggle {
+    display: block;
+    margin-left: auto;
+  }
+}

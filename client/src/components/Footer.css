@@ -1,0 +1,94 @@
+/* ── LinkedIn-style Footer ─────────────────────────────────────────────────── */
+.footer {
+  background-color: #fff;
+  border-top: 1px solid #E0DEDE;
+  color: #666;
+  margin-top: auto;
+}
+
+.footer-container {
+  max-width: 1128px;
+  margin: 0 auto;
+  padding: 24px 16px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 24px;
+}
+
+.footer-section h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #0A66C2;
+  letter-spacing: -0.2px;
+}
+
+.footer-section h4 {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #191919;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.footer-section p {
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: #666;
+}
+
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-section ul li {
+  margin-bottom: 6px;
+}
+
+.footer-section ul li a {
+  color: #666;
+  text-decoration: none;
+  font-size: 0.8125rem;
+  transition: color 0.15s;
+}
+
+.footer-section ul li a:hover {
+  color: #0A66C2;
+  text-decoration: none;
+}
+
+.footer-bottom {
+  border-top: 1px solid #E0DEDE;
+  padding: 16px;
+  text-align: center;
+  font-size: 0.75rem;
+  color: #A8A8A8;
+  max-width: 1128px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .footer-container {
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .footer-section {
+    text-align: left;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-container {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-section ul {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+}
