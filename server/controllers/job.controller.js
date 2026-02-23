@@ -1,20 +1,18 @@
-const path = require("path");
-const Company = require("../models/Company");
-const Application = require("../models/Application");
-const Job = require("../models/Job");
-const User = require("../models/User");
-const { uploadToGoogleDrive, deleteLocalFile } = require("../middleware/googleDriveService");
-const {
+import Company from "../models/Company.js";
+import Application from "../models/Application.js";
+import Job from "../models/Job.js";
+import User from "../models/User.js";
+import { uploadToGoogleDrive } from "../middleware/googleDriveService.js";
+import {
   createJobService,
   updateJobService,
   getAllJobsService,
   getJobByIdService,
-  applyJobService,
   getHighestPaidJobsService,
-  getMostAppliedJobsService
-} = require("../services/job.service");
+  getMostAppliedJobsService,
+} from "../services/job.service.js";
 
-exports.createJob = async (req, res, next) => {
+export const createJob = async (req, res, _next) => {
   try {
     //check user token to find manager's company id. if it doesnt match with req.body.companyInfo then return
     const { email } = req.user;
@@ -54,7 +52,7 @@ exports.createJob = async (req, res, next) => {
     const { deadline } = req.body;
     const today = new Date();
     const deadlineDate = new Date(deadline);
-    if (deadlineDate < today) {
+    if (deadlineDate <= today) {
       return res.status(400).json({
         status: "fail",
         message: "Deadline must be atleast 1 day from now",
@@ -79,10 +77,7 @@ exports.createJob = async (req, res, next) => {
     const result = await createJobService(payload);
 
     // Push the new job into the company's jobPosts array
-    await Company.updateOne(
-      { _id: company._id },
-      { $push: { jobPosts: result._id } }
-    );
+    await Company.updateOne({ _id: company._id }, { $push: { jobPosts: result._id } });
 
     res.status(200).json({
       status: "success",
@@ -98,14 +93,12 @@ exports.createJob = async (req, res, next) => {
   }
 };
 
-exports.getJobsByManagerToken = async (req, res) => {
+export const getJobsByManagerToken = async (req, res) => {
   try {
     const { email } = req.user;
-    //get user by this email from User model
     const user = await User.findOne({ email }).select(
       "-password -__v -createdAt -updatedAt -role -status -appliedJobs"
     );
-    //get company by this user from Company model inside managerName field
     const company = await Company.findOne({ managerName: user._id });
 
     //get all jobs
@@ -139,16 +132,8 @@ exports.getJobsByManagerToken = async (req, res) => {
   }
 };
 
-exports.getJobByManagerTokenJobId = async (req, res) => {
+export const getJobByManagerTokenJobId = async (req, res) => {
   try {
-    const { email } = req.user;
-    //get user by this email from User model
-    const user = await User.findOne({ email }).select(
-      "-password -__v -createdAt -updatedAt -role -status -appliedJobs"
-    );
-    //get company by this user from Company model inside managerName field
-    const company = await Company.findOne({ managerName: user._id });
-
     //get all jobs
     const jobs = await Job.find({})
       .populate({
@@ -159,8 +144,7 @@ exports.getJobByManagerTokenJobId = async (req, res) => {
         path: "applications",
         populate: {
           path: "applicant",
-          select:
-            "-password -__v -createdAt -updatedAt -role -status -appliedJobs",
+          select: "-password -__v -createdAt -updatedAt -role -status -appliedJobs",
         },
         select: "-job",
       })
@@ -169,8 +153,7 @@ exports.getJobByManagerTokenJobId = async (req, res) => {
         select: "-jobPosts",
         populate: {
           path: "managerName",
-          select:
-            "-password -__v -createdAt -updatedAt -role -status -appliedJobs",
+          select: "-password -__v -createdAt -updatedAt -role -status -appliedJobs",
         },
       });
 
@@ -179,6 +162,13 @@ exports.getJobByManagerTokenJobId = async (req, res) => {
     const job = jobs.find((job) => {
       return job._id.toString() == id.toString();
     });
+
+    if (!job) {
+      return res.status(404).json({
+        status: "fail",
+        message: "Job not found",
+      });
+    }
 
     //check if managerName.email is equal to req.user.email
     if (req.user.email !== job.companyInfo.managerName.email) {
@@ -203,7 +193,7 @@ exports.getJobByManagerTokenJobId = async (req, res) => {
   }
 };
 
-exports.updateJob = async (req, res) => {
+export const updateJob = async (req, res) => {
   try {
     const { email } = req.user;
     const manager = await User.findOne({ email });
@@ -246,7 +236,7 @@ exports.updateJob = async (req, res) => {
   }
 };
 
-exports.getAllJobs = async (req, res) => {
+export const getAllJobs = async (req, res) => {
   try {
     //{price:{$ gt:50}
     //{ price: { gt: '50' } }
@@ -259,10 +249,7 @@ exports.getAllJobs = async (req, res) => {
 
     //gt ,lt ,gte .lte
     let filtersString = JSON.stringify(filters);
-    filtersString = filtersString.replace(
-      /\b(gt|gte|lt|lte|ne|eq)\b/g,
-      (match) => `$${match}`
-    );
+    filtersString = filtersString.replace(/\b(gt|gte|lt|lte|ne|eq)\b/g, (match) => `$${match}`);
 
     filters = JSON.parse(filtersString);
 
@@ -302,7 +289,7 @@ exports.getAllJobs = async (req, res) => {
   }
 };
 
-exports.getJobById = async (req, res) => {
+export const getJobById = async (req, res) => {
   try {
     const { id } = req.params;
     const job = await getJobByIdService(id);
@@ -320,7 +307,7 @@ exports.getJobById = async (req, res) => {
   }
 };
 
-exports.applyJob = async (req, res) => {
+export const applyJob = async (req, res) => {
   try {
     const { email } = req.user;
     const user = await User.findOne({ email }).select(
@@ -384,15 +371,9 @@ exports.applyJob = async (req, res) => {
       coverLetter: req.body.coverLetter || "",
     });
 
-    await Job.updateOne(
-      { _id: job._id },
-      { $push: { applications: application._id } }
-    );
+    await Job.updateOne({ _id: job._id }, { $push: { applications: application._id } });
 
-    await User.updateOne(
-      { _id: user._id },
-      { $push: { appliedJobs: application._id } }
-    );
+    await User.updateOne({ _id: user._id }, { $push: { appliedJobs: application._id } });
 
     res.status(200).json({
       status: "success",
@@ -410,7 +391,7 @@ exports.applyJob = async (req, res) => {
   }
 };
 
-exports.getHighestPaidJobs = async (req, res) => {
+export const getHighestPaidJobs = async (req, res) => {
   try {
     const jobs = await getHighestPaidJobsService();
 
@@ -427,7 +408,7 @@ exports.getHighestPaidJobs = async (req, res) => {
   }
 };
 
-exports.getMostAppliedJobs = async (req, res) => {
+export const getMostAppliedJobs = async (req, res) => {
   try {
     const jobs = await getMostAppliedJobsService();
 
@@ -445,7 +426,7 @@ exports.getMostAppliedJobs = async (req, res) => {
 };
 
 // PATCH /jobs/:jobId/applications/:appId/status
-exports.updateApplicationStatus = async (req, res) => {
+export const updateApplicationStatus = async (req, res) => {
   try {
     const { jobId, appId } = req.params;
     const { status } = req.body;
@@ -459,7 +440,8 @@ exports.updateApplicationStatus = async (req, res) => {
     const manager = await User.findOne({ email });
     const job = await Job.findById(jobId);
     if (!job) return res.status(404).json({ status: "fail", message: "Job not found" });
-    if (job.postedBy?.toString() !== manager._id.toString()) {
+    const company = await Company.findById(job.companyInfo).select("managerName");
+    if (!company || company.managerName?.toString() !== manager._id.toString()) {
       return res.status(403).json({ status: "fail", message: "Not authorized" });
     }
 
@@ -469,7 +451,8 @@ exports.updateApplicationStatus = async (req, res) => {
       { new: true, runValidators: true }
     ).populate("applicant", "firstName lastName email");
 
-    if (!application) return res.status(404).json({ status: "fail", message: "Application not found" });
+    if (!application)
+      return res.status(404).json({ status: "fail", message: "Application not found" });
 
     res.status(200).json({ status: "success", data: application });
   } catch (error) {
@@ -477,7 +460,7 @@ exports.updateApplicationStatus = async (req, res) => {
   }
 };
 
-exports.getPortalStats = async (req, res) => {
+export const getPortalStats = async (req, res) => {
   try {
     const jobCount = await Job.countDocuments();
     const companyCount = await Company.countDocuments();
@@ -490,20 +473,20 @@ exports.getPortalStats = async (req, res) => {
         jobs: jobCount,
         companies: companyCount,
         candidates: candidateCount,
-        placements: placementCount
-      }
+        placements: placementCount,
+      },
     });
   } catch (error) {
     res.status(400).json({
       status: "fail",
       message: "Could not fetch stats",
-      error: error.message
+      error: error.message,
     });
   }
 };
 
 // PATCH /jobs/:jobId/applications/:appId/feedback
-exports.updateApplicationFeedback = async (req, res) => {
+export const updateApplicationFeedback = async (req, res) => {
   try {
     const { jobId, appId } = req.params;
     const { feedback } = req.body;
@@ -516,7 +499,8 @@ exports.updateApplicationFeedback = async (req, res) => {
     const manager = await User.findOne({ email });
     const job = await Job.findById(jobId);
     if (!job) return res.status(404).json({ status: "fail", message: "Job not found" });
-    if (job.postedBy?.toString() !== manager._id.toString()) {
+    const company = await Company.findById(job.companyInfo).select("managerName");
+    if (!company || company.managerName?.toString() !== manager._id.toString()) {
       return res.status(403).json({ status: "fail", message: "Not authorized" });
     }
 
@@ -526,7 +510,8 @@ exports.updateApplicationFeedback = async (req, res) => {
       { new: true }
     ).populate("applicant", "firstName lastName email");
 
-    if (!application) return res.status(404).json({ status: "fail", message: "Application not found" });
+    if (!application)
+      return res.status(404).json({ status: "fail", message: "Application not found" });
 
     res.status(200).json({ status: "success", data: application });
   } catch (error) {

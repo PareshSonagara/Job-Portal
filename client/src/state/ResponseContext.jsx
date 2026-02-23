@@ -24,21 +24,33 @@ export const ResponseProvider = ({ children }) => {
     setNotifications((prev) => prev.filter((n) => n.id !== id));
   }, []);
 
-  const success = useCallback((message, duration) => {
-    return addNotification(message, "success", duration);
-  }, [addNotification]);
+  const success = useCallback(
+    (message, duration) => {
+      return addNotification(message, "success", duration);
+    },
+    [addNotification]
+  );
 
-  const error = useCallback((message, duration) => {
-    return addNotification(message, "error", duration);
-  }, [addNotification]);
+  const error = useCallback(
+    (message, duration) => {
+      return addNotification(message, "error", duration);
+    },
+    [addNotification]
+  );
 
-  const info = useCallback((message, duration) => {
-    return addNotification(message, "info", duration);
-  }, [addNotification]);
+  const info = useCallback(
+    (message, duration) => {
+      return addNotification(message, "info", duration);
+    },
+    [addNotification]
+  );
 
-  const warning = useCallback((message, duration) => {
-    return addNotification(message, "warning", duration);
-  }, [addNotification]);
+  const warning = useCallback(
+    (message, duration) => {
+      return addNotification(message, "warning", duration);
+    },
+    [addNotification]
+  );
 
   const value = {
     notifications,

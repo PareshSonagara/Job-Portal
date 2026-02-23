@@ -37,11 +37,7 @@ export default function AdminPromote() {
 
     try {
       setLoading(true);
-      await userAPI.promoteUser(
-        formData.userId,
-        { role: formData.newRole },
-        token
-      );
+      await userAPI.promoteUser(formData.userId, { role: formData.newRole }, token);
       showSuccess(`User promoted to ${formData.newRole}`);
       setFormData({ userId: "", newRole: "Hiring-Manager" });
       setErrors({});
@@ -57,7 +53,11 @@ export default function AdminPromote() {
     return (
       <div className="page" style={{ textAlign: "center" }}>
         <p>You don't have permission to access this page</p>
-        <Link to="/" className="btn btn-primary" style={{ marginTop: "20px", display: "inline-block" }}>
+        <Link
+          to="/"
+          className="btn btn-primary"
+          style={{ marginTop: "20px", display: "inline-block" }}
+        >
           Go Home
         </Link>
       </div>
@@ -66,12 +66,14 @@ export default function AdminPromote() {
 
   return (
     <div className="page">
-      <div style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        marginBottom: "30px"
-      }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: "30px",
+        }}
+      >
         <div>
           <h1 style={{ margin: "0" }}>Promote User</h1>
           <p style={{ margin: "8px 0 0", color: "var(--muted)" }}>
@@ -122,12 +124,14 @@ export default function AdminPromote() {
         </div>
 
         {/* Info boxes */}
-        <div style={{
-          padding: "20px",
-          backgroundColor: "rgba(12, 15, 29, 0.03)",
-          borderRadius: "10px",
-          marginBottom: "30px"
-        }}>
+        <div
+          style={{
+            padding: "20px",
+            backgroundColor: "rgba(12, 15, 29, 0.03)",
+            borderRadius: "10px",
+            marginBottom: "30px",
+          }}
+        >
           <h3 style={{ marginTop: "0" }}>Role Permissions</h3>
           <ul style={{ margin: "0", paddingLeft: "20px" }}>
             <li>

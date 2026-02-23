@@ -1,26 +1,28 @@
 // Company model is not needed directly in user controller
-const User = require("../models/User");
-const bcrypt = require("bcryptjs");
-const {
+import User from "../models/User.js";
+import bcrypt from "bcryptjs";
+import {
   signupService,
   findUserByEmail,
   findUserById,
   allCandidatesService,
   allHiringManagersService,
   candidateByIdService,
-} = require("../services/user.service");
-const { generateToken } = require("../utils/token");
-const { uploadToCloudinary } = require("../middleware/cloudinaryService");
-const { uploadToGoogleDrive, deleteLocalFile } = require("../middleware/googleDriveService");
-const { OAuth2Client } = require("google-auth-library");
+} from "../services/user.service.js";
+import { generateToken } from "../utils/token.js";
+import { uploadToCloudinary } from "../middleware/cloudinaryService.js";
+import { uploadToGoogleDrive } from "../middleware/googleDriveService.js";
+import { OAuth2Client } from "google-auth-library";
+
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 // ─── Signup ────────────────────────────────────────────────────────────────────
-exports.signup = async (req, res) => {
+export const signup = async (req, res) => {
   try {
     req.body.status = "active"; // Auto-activate: no email confirmation needed
     const user = await signupService(req.body);
-    const { password: pwd, ...userWithoutPassword } = user.toObject();
+    const userWithoutPassword = user.toObject();
+    delete userWithoutPassword.password;
     res.status(200).json({
       status: "success",
       message: "Successfully signed up! You can now log in.",
@@ -32,7 +34,7 @@ exports.signup = async (req, res) => {
 };
 
 // ─── Login ──────────────────────────────────────────────────────────────────────
-exports.login = async (req, res) => {
+export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -59,7 +61,8 @@ exports.login = async (req, res) => {
       });
     }
 
-    const { password: pwd, ...others } = user.toObject();
+    const others = user.toObject();
+    delete others.password;
     const token = generateToken(others);
 
     res.status(200).json({
@@ -73,7 +76,7 @@ exports.login = async (req, res) => {
 };
 
 // ─── Google Login ─────────────────────────────────────────────────────────────
-exports.googleLogin = async (req, res) => {
+export const googleLogin = async (req, res) => {
   try {
     const { credential } = req.body;
 
@@ -100,7 +103,7 @@ exports.googleLogin = async (req, res) => {
       // Create new user if not exists
       user = await User.create({
         email,
-        firstName: given_name || email.split('@')[0],
+        firstName: given_name || email.split("@")[0],
         lastName: family_name || "User",
         googleId: sub,
         imageURL: picture,
@@ -114,7 +117,8 @@ exports.googleLogin = async (req, res) => {
       await user.save({ validateBeforeSave: false });
     }
 
-    const { password: pwd, ...others } = user.toObject();
+    const others = user.toObject();
+    delete others.password;
     const token = generateToken(others);
 
     res.status(200).json({
@@ -128,7 +132,7 @@ exports.googleLogin = async (req, res) => {
 };
 
 // ─── Get My Profile ─────────────────────────────────────────────────────────────
-exports.getMe = async (req, res) => {
+export const getMe = async (req, res) => {
   try {
     const user = await User.findOne({ email: req.user?.email }).populate({
       path: "appliedJobs",
@@ -145,7 +149,7 @@ exports.getMe = async (req, res) => {
 };
 
 // ─── Update Profile ─────────────────────────────────────────────────────────────
-exports.updateProfile = async (req, res) => {
+export const updateProfile = async (req, res) => {
   try {
     const { firstName, lastName, contactNumber, dateOfBirth, imageURL, resumeURL } = req.body;
     const user = await findUserByEmail(req.user?.email);
@@ -174,7 +178,7 @@ exports.updateProfile = async (req, res) => {
 };
 
 // ─── Change Password (using old password) ───────────────────────────────────────
-exports.changePassword = async (req, res) => {
+export const changePassword = async (req, res) => {
   try {
     const { oldPassword, newPassword, confirmPassword } = req.body;
 
@@ -232,7 +236,7 @@ exports.changePassword = async (req, res) => {
 };
 
 // ─── Upload Profile Image ────────────────────────────────────────────────────
-exports.uploadProfileImage = async (req, res) => {
+export const uploadProfileImage = async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ status: "fail", error: "No image file uploaded" });
@@ -256,7 +260,7 @@ exports.uploadProfileImage = async (req, res) => {
 };
 
 // ─── Upload Profile Resume ────────────────────────────────────────────────────
-exports.uploadProfileResume = async (req, res) => {
+export const uploadProfileResume = async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ status: "fail", error: "No PDF file uploaded" });
@@ -279,7 +283,7 @@ exports.uploadProfileResume = async (req, res) => {
 };
 
 // ─── Check Email Exists ─────────────────────────────────────────────────────────
-exports.checkEmailExists = async (req, res) => {
+export const checkEmailExists = async (req, res) => {
   try {
     const { email } = req.params;
     if (!email) {
@@ -293,7 +297,7 @@ exports.checkEmailExists = async (req, res) => {
 };
 
 // ─── Admin: Get All Candidates ──────────────────────────────────────────────────
-exports.getCandidates = async (req, res) => {
+export const getCandidates = async (req, res) => {
   try {
     const candidates = await allCandidatesService();
     res.status(200).json({ status: "success", data: candidates });
@@ -303,7 +307,7 @@ exports.getCandidates = async (req, res) => {
 };
 
 // ─── Admin: Get Candidate By ID ─────────────────────────────────────────────────
-exports.getCandidateById = async (req, res) => {
+export const getCandidateById = async (req, res) => {
   try {
     const { id } = req.params;
     const candidate = await candidateByIdService(id);
@@ -317,7 +321,7 @@ exports.getCandidateById = async (req, res) => {
 };
 
 // ─── Admin: Get All Hiring Managers ────────────────────────────────────────────
-exports.getManagers = async (req, res) => {
+export const getManagers = async (req, res) => {
   try {
     const hiringManagers = await allHiringManagersService();
     res.status(200).json({ status: "success", data: hiringManagers });
@@ -327,7 +331,7 @@ exports.getManagers = async (req, res) => {
 };
 
 // ─── Admin: Promote User Role ───────────────────────────────────────────────────
-exports.promoteUserRole = async (req, res) => {
+export const promoteUserRole = async (req, res) => {
   try {
     const { id } = req.params;
     const user = await findUserById(id);

@@ -144,7 +144,9 @@ export default function Signup() {
               className={errors.password ? "error" : ""}
             />
             {errors.password && <span className="error">{errors.password}</span>}
-            <small>Min 6 characters — must include uppercase, lowercase, number &amp; symbol (e.g. !@#$)</small>
+            <small>
+              Min 6 characters — must include uppercase, lowercase, number &amp; symbol (e.g. !@#$)
+            </small>
           </div>
 
           <div className="form-group">

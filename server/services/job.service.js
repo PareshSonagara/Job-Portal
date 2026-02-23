@@ -1,16 +1,16 @@
-const Job = require("../models/Job");
+import Job from "../models/Job.js";
 
-exports.createJobService = async (data) => {
+export const createJobService = async (data) => {
   const job = await Job.create(data);
   return job;
 };
 
-exports.updateJobService = async (jobId, data) => {
+export const updateJobService = async (jobId, data) => {
   const result = await Job.updateOne({ _id: jobId }, { $set: data }, { runValidators: true });
   return result;
 };
 
-exports.getAllJobsService = async (filters, queries) => {
+export const getAllJobsService = async (filters, queries) => {
   const jobs = await Job.find(filters)
     .skip(queries.skip)
     .limit(queries.limit)
@@ -28,7 +28,7 @@ exports.getAllJobsService = async (filters, queries) => {
   return { jobs, totalJobs, pageCount };
 };
 
-exports.getJobByIdService = async (id) => {
+export const getJobByIdService = async (id) => {
   const job = await Job.findById(id).populate({
     path: "companyInfo",
     select: "companyName location companyWebsite",
@@ -36,32 +36,18 @@ exports.getJobByIdService = async (id) => {
   return job;
 };
 
-exports.applyJobService = async (jobId, data) => {
-  const result = await Job.updateOne(
-    { _id: jobId },
-    { $push: { applicants: data } }
-  );
-  return result;
-};
-
-exports.getHighestPaidJobsService = async () => {
-  const jobs = await Job.find()
-    .sort({ salary: -1 })
-    .limit(10)
-    .populate({
-      path: "companyInfo",
-      select: "companyName location companyWebsite",
-    });
+export const getHighestPaidJobsService = async () => {
+  const jobs = await Job.find().sort({ salary: -1 }).limit(10).populate({
+    path: "companyInfo",
+    select: "companyName location companyWebsite",
+  });
   return jobs;
 };
 
-exports.getMostAppliedJobsService = async () => {
-  const jobs = await Job.find()
-    .sort({ createdAt: -1 })
-    .limit(10)
-    .populate({
-      path: "companyInfo",
-      select: "companyName location companyWebsite",
-    });
+export const getMostAppliedJobsService = async () => {
+  const jobs = await Job.find().sort({ createdAt: -1 }).limit(10).populate({
+    path: "companyInfo",
+    select: "companyName location companyWebsite",
+  });
   return jobs;
 };

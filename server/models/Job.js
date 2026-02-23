@@ -1,6 +1,5 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 const { ObjectId } = mongoose.Schema.Types;
-const valid = require("validator");
 
 // schema design
 const jobSchema = mongoose.Schema(
@@ -70,8 +69,6 @@ const jobSchema = mongoose.Schema(
   }
 );
 
-
-
 const Job = mongoose.model("Job", jobSchema);
 
-module.exports = Job;
+export default Job;

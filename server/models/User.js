@@ -1,8 +1,7 @@
-const mongoose = require("mongoose");
-const validator = require("validator");
-const crypto = require("crypto");
-
-const bcrypt = require("bcryptjs");
+import mongoose from "mongoose";
+import validator from "validator";
+import crypto from "crypto";
+import bcrypt from "bcryptjs";
 
 const userSchema = mongoose.Schema(
   {
@@ -16,7 +15,12 @@ const userSchema = mongoose.Schema(
     },
     password: {
       type: String,
-      required: [function () { return !this.googleId; }, "Password is required"],
+      required: [
+        function () {
+          return !this.googleId;
+        },
+        "Password is required",
+      ],
       validate: {
         validator: function (value) {
           if (!value && this.googleId) return true;
@@ -33,7 +37,12 @@ const userSchema = mongoose.Schema(
     },
     confirmPassword: {
       type: String,
-      required: [function () { return !this.googleId && this.isModified("password"); }, "Please confirm your password"],
+      required: [
+        function () {
+          return !this.googleId && this.isModified("password");
+        },
+        "Please confirm your password",
+      ],
       validate: {
         validator: function (value) {
           if (!value && this.googleId) return true;
@@ -71,18 +80,14 @@ const userSchema = mongoose.Schema(
     },
     contactNumber: {
       type: String,
-      validate: [
-        validator.isMobilePhone,
-        "Please provide a valid contact number",
-      ],
+      validate: [validator.isMobilePhone, "Please provide a valid contact number"],
     },
     appliedJobs: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Application",
-      }
+      },
     ],
-
 
     dateOfBirth: {
       type: Date,
@@ -158,7 +163,7 @@ userSchema.methods.generatePasswordResetToken = function () {
 
 const User = mongoose.model("User", userSchema);
 
-module.exports = User;
+export default User;
 
 /*
 

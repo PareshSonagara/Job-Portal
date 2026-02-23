@@ -1,6 +1,5 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 const { ObjectId } = mongoose.Schema.Types;
-const valid = require("validator");
 // application
 // schema design
 const applicationSchema = mongoose.Schema(
@@ -13,7 +12,7 @@ const applicationSchema = mongoose.Schema(
     applicant: {
       type: ObjectId,
       ref: "User",
-      required: true
+      required: true,
     },
     resume: {
       type: String,
@@ -42,4 +41,4 @@ const applicationSchema = mongoose.Schema(
 
 const Application = mongoose.model("Application", applicationSchema);
 
-module.exports = Application;
+export default Application;

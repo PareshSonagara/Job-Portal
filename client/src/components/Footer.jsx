@@ -28,26 +28,48 @@ export const Footer = () => {
         <div className="footer-section">
           <h4>Quick Links</h4>
           <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/jobs">Jobs</a></li>
-            <li><a href="/signup" onClick={(e) => handleAuthLink(e, "/signup")}>Sign Up</a></li>
+            <li>
+              <a href="/">Home</a>
+            </li>
+            <li>
+              <a href="/jobs">Jobs</a>
+            </li>
+            <li>
+              <a href="/signup" onClick={(e) => handleAuthLink(e, "/signup")}>
+                Sign Up
+              </a>
+            </li>
           </ul>
         </div>
 
         <div className="footer-section">
           <h4>For Candidates</h4>
           <ul>
-            <li><a href="/jobs">Browse Jobs</a></li>
-            <li><a href="/signup" onClick={(e) => handleAuthLink(e, "/signup")}>Register</a></li>
-            <li><a href="/profile">My Profile</a></li>
+            <li>
+              <a href="/jobs">Browse Jobs</a>
+            </li>
+            <li>
+              <a href="/signup" onClick={(e) => handleAuthLink(e, "/signup")}>
+                Register
+              </a>
+            </li>
+            <li>
+              <a href="/profile">My Profile</a>
+            </li>
           </ul>
         </div>
 
         <div className="footer-section">
           <h4>For Employers</h4>
           <ul>
-            <li><a href="/signup" onClick={(e) => handleAuthLink(e, "/signup")}>Post a Job</a></li>
-            <li><a href="/manager/dashboard">Dashboard</a></li>
+            <li>
+              <a href="/signup" onClick={(e) => handleAuthLink(e, "/signup")}>
+                Post a Job
+              </a>
+            </li>
+            <li>
+              <a href="/manager/dashboard">Dashboard</a>
+            </li>
           </ul>
         </div>
 

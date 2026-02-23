@@ -51,8 +51,22 @@ const AppShell = () => {
           <Route path="/jobs/:id" element={<JobDetails />} />
 
           {/* Auth Routes — redirect logged-in users to their dashboard */}
-          <Route path="/login" element={<GuestRoute><Login /></GuestRoute>} />
-          <Route path="/signup" element={<GuestRoute logoutFirst><Signup /></GuestRoute>} />
+          <Route
+            path="/login"
+            element={
+              <GuestRoute>
+                <Login />
+              </GuestRoute>
+            }
+          />
+          <Route
+            path="/signup"
+            element={
+              <GuestRoute logoutFirst>
+                <Signup />
+              </GuestRoute>
+            }
+          />
 
           {/* Candidate Routes */}
           <Route

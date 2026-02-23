@@ -36,10 +36,12 @@ export default function AdminCandidates() {
     loadCandidates();
   }, [user, token, navigate, showError]);
 
-  const filteredCandidates = candidates.filter(candidate => {
-    const matchesSearch = candidate.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  const filteredCandidates = candidates.filter((candidate) => {
+    const matchesSearch =
+      candidate.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       candidate.email?.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesStatus = filterStatus === "all" ||
+    const matchesStatus =
+      filterStatus === "all" ||
       (filterStatus === "verified" && candidate.emailVerified) ||
       (filterStatus === "unverified" && !candidate.emailVerified);
     return matchesSearch && matchesStatus;
@@ -49,12 +51,14 @@ export default function AdminCandidates() {
 
   return (
     <div className="page">
-      <div style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        marginBottom: "30px"
-      }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: "30px",
+        }}
+      >
         <div>
           <h1 style={{ margin: "0" }}>Manage Candidates</h1>
           <p style={{ margin: "8px 0 0", color: "var(--muted)" }}>
@@ -67,15 +71,17 @@ export default function AdminCandidates() {
       </div>
 
       {/* Search and Filter */}
-      <div style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-        gap: "15px",
-        marginBottom: "30px",
-        padding: "20px",
-        backgroundColor: "rgba(12, 15, 29, 0.03)",
-        borderRadius: "10px"
-      }}>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+          gap: "15px",
+          marginBottom: "30px",
+          padding: "20px",
+          backgroundColor: "rgba(12, 15, 29, 0.03)",
+          borderRadius: "10px",
+        }}
+      >
         <div className="form-group" style={{ margin: "0" }}>
           <label htmlFor="search">Search Candidates</label>
           <input
@@ -118,42 +124,48 @@ export default function AdminCandidates() {
 
       {/* Candidates List */}
       {filteredCandidates.length === 0 ? (
-        <div style={{
-          textAlign: "center",
-          padding: "60px 20px",
-          color: "var(--muted)"
-        }}>
+        <div
+          style={{
+            textAlign: "center",
+            padding: "60px 20px",
+            color: "var(--muted)",
+          }}
+        >
           <p style={{ fontSize: "1.1rem" }}>No candidates found</p>
         </div>
       ) : (
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
-          gap: "20px"
-        }}>
-          {filteredCandidates.map(candidate => (
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
+            gap: "20px",
+          }}
+        >
+          {filteredCandidates.map((candidate) => (
             <div
               key={candidate._id}
               style={{
                 padding: "20px",
                 border: "1px solid rgba(12, 15, 29, 0.1)",
                 borderRadius: "10px",
-                backgroundColor: "#fff"
+                backgroundColor: "#fff",
               }}
             >
               <div style={{ display: "flex", alignItems: "center", marginBottom: "15px" }}>
-                <div style={{
-                  width: "50px",
-                  height: "50px",
-                  borderRadius: "50%",
-                  backgroundColor: "var(--accent)",
-                  color: "#fff",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: "1.3rem",
-                  marginRight: "12px"
-                }}>
+                <div
+                  style={{
+                    width: "50px",
+                    height: "50px",
+                    borderRadius: "50%",
+                    backgroundColor: "var(--accent)",
+                    color: "#fff",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: "1.3rem",
+                    marginRight: "12px",
+                  }}
+                >
                   {candidate.name?.charAt(0).toUpperCase()}
                 </div>
                 <div style={{ flex: "1" }}>
@@ -164,24 +176,32 @@ export default function AdminCandidates() {
                 </div>
               </div>
 
-              <div style={{ marginBottom: "15px", paddingBottom: "15px", borderBottom: "1px solid rgba(12, 15, 29, 0.05)" }}>
-                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px" }}>
+              <div
+                style={{
+                  marginBottom: "15px",
+                  paddingBottom: "15px",
+                  borderBottom: "1px solid rgba(12, 15, 29, 0.05)",
+                }}
+              >
+                <div
+                  style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px" }}
+                >
                   <span style={{ color: "var(--muted)", fontSize: "0.85rem" }}>Email Status</span>
-                  <span style={{
-                    padding: "4px 10px",
-                    backgroundColor: candidate.emailVerified ? "#4caf50" : "#ff9800",
-                    color: "#fff",
-                    borderRadius: "12px",
-                    fontSize: "0.8rem",
-                    fontWeight: "600"
-                  }}>
+                  <span
+                    style={{
+                      padding: "4px 10px",
+                      backgroundColor: candidate.emailVerified ? "#4caf50" : "#ff9800",
+                      color: "#fff",
+                      borderRadius: "12px",
+                      fontSize: "0.8rem",
+                      fontWeight: "600",
+                    }}
+                  >
                     {candidate.emailVerified ? "Verified" : "Unverified"}
                   </span>
                 </div>
                 {candidate.location && (
-                  <p style={{ margin: "8px 0", fontSize: "0.9rem" }}>
-                    📍 {candidate.location}
-                  </p>
+                  <p style={{ margin: "8px 0", fontSize: "0.9rem" }}>📍 {candidate.location}</p>
                 )}
                 <p style={{ margin: "8px 0 0", fontSize: "0.85rem", color: "var(--muted)" }}>
                   Joined {new Date(candidate.createdAt).toLocaleDateString()}
@@ -190,23 +210,27 @@ export default function AdminCandidates() {
 
               {candidate.skills && candidate.skills.length > 0 && (
                 <div style={{ marginBottom: "15px" }}>
-                  <p style={{ margin: "0 0 8px", fontSize: "0.85rem", color: "var(--muted)" }}>Skills</p>
+                  <p style={{ margin: "0 0 8px", fontSize: "0.85rem", color: "var(--muted)" }}>
+                    Skills
+                  </p>
                   <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
-                    {candidate.skills.slice(0, 3).map(skill => (
+                    {candidate.skills.slice(0, 3).map((skill) => (
                       <span
                         key={skill}
                         style={{
                           fontSize: "0.75rem",
                           padding: "4px 8px",
                           backgroundColor: "rgba(12, 15, 29, 0.08)",
-                          borderRadius: "12px"
+                          borderRadius: "12px",
                         }}
                       >
                         {skill}
                       </span>
                     ))}
                     {candidate.skills.length > 3 && (
-                      <span style={{ fontSize: "0.75rem", padding: "4px 8px", color: "var(--muted)" }}>
+                      <span
+                        style={{ fontSize: "0.75rem", padding: "4px 8px", color: "var(--muted)" }}
+                      >
                         +{candidate.skills.length - 3}
                       </span>
                     )}

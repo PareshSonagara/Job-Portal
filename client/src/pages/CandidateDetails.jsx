@@ -51,50 +51,57 @@ export default function CandidateDetails() {
 
   return (
     <div className="page">
-      <Link to="/admin/candidates" style={{
-        color: "var(--accent)",
-        textDecoration: "none",
-        marginBottom: "20px",
-        display: "inline-block"
-      }}>
+      <Link
+        to="/admin/candidates"
+        style={{
+          color: "var(--accent)",
+          textDecoration: "none",
+          marginBottom: "20px",
+          display: "inline-block",
+        }}
+      >
         ← Back to Candidates
       </Link>
 
-      <div style={{
-        display: "grid",
-        gridTemplateColumns: "2fr 1fr",
-        gap: "30px",
-        marginBottom: "30px"
-      }}>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "2fr 1fr",
+          gap: "30px",
+          marginBottom: "30px",
+        }}
+      >
         {/* Main Info */}
         <div>
-          <div style={{
-            padding: "30px",
-            border: "1px solid rgba(12, 15, 29, 0.1)",
-            borderRadius: "10px",
-            backgroundColor: "#fff",
-            marginBottom: "20px"
-          }}>
+          <div
+            style={{
+              padding: "30px",
+              border: "1px solid rgba(12, 15, 29, 0.1)",
+              borderRadius: "10px",
+              backgroundColor: "#fff",
+              marginBottom: "20px",
+            }}
+          >
             <div style={{ display: "flex", alignItems: "center", marginBottom: "20px" }}>
-              <div style={{
-                width: "80px",
-                height: "80px",
-                borderRadius: "50%",
-                backgroundColor: "var(--accent)",
-                color: "#fff",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: "2rem",
-                marginRight: "20px"
-              }}>
+              <div
+                style={{
+                  width: "80px",
+                  height: "80px",
+                  borderRadius: "50%",
+                  backgroundColor: "var(--accent)",
+                  color: "#fff",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: "2rem",
+                  marginRight: "20px",
+                }}
+              >
                 {candidate.name?.charAt(0).toUpperCase()}
               </div>
               <div>
                 <h1 style={{ margin: "0 0 8px" }}>{candidate.name}</h1>
-                <p style={{ margin: "0", color: "var(--muted)" }}>
-                  {candidate.email}
-                </p>
+                <p style={{ margin: "0", color: "var(--muted)" }}>{candidate.email}</p>
               </div>
             </div>
 
@@ -118,9 +125,7 @@ export default function CandidateDetails() {
 
             {candidate.bio && (
               <div style={{ marginBottom: "15px" }}>
-                <p style={{ margin: "0 0 5px", color: "var(--muted)", fontSize: "0.9rem" }}>
-                  Bio
-                </p>
+                <p style={{ margin: "0 0 5px", color: "var(--muted)", fontSize: "0.9rem" }}>Bio</p>
                 <p style={{ margin: "0", lineHeight: "1.6" }}>{candidate.bio}</p>
               </div>
             )}
@@ -128,16 +133,18 @@ export default function CandidateDetails() {
 
           {/* Skills */}
           {candidate.skills && candidate.skills.length > 0 && (
-            <div style={{
-              padding: "30px",
-              border: "1px solid rgba(12, 15, 29, 0.1)",
-              borderRadius: "10px",
-              backgroundColor: "#fff",
-              marginBottom: "20px"
-            }}>
+            <div
+              style={{
+                padding: "30px",
+                border: "1px solid rgba(12, 15, 29, 0.1)",
+                borderRadius: "10px",
+                backgroundColor: "#fff",
+                marginBottom: "20px",
+              }}
+            >
               <h2 style={{ marginTop: "0" }}>Skills</h2>
               <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
-                {candidate.skills.map(skill => (
+                {candidate.skills.map((skill) => (
                   <span
                     key={skill}
                     style={{
@@ -145,7 +152,7 @@ export default function CandidateDetails() {
                       backgroundColor: "var(--accent)",
                       color: "#fff",
                       borderRadius: "20px",
-                      fontSize: "0.9rem"
+                      fontSize: "0.9rem",
                     }}
                   >
                     {skill}
@@ -157,32 +164,34 @@ export default function CandidateDetails() {
 
           {/* Experience */}
           {candidate.experience && candidate.experience.length > 0 && (
-            <div style={{
-              padding: "30px",
-              border: "1px solid rgba(12, 15, 29, 0.1)",
-              borderRadius: "10px",
-              backgroundColor: "#fff"
-            }}>
+            <div
+              style={{
+                padding: "30px",
+                border: "1px solid rgba(12, 15, 29, 0.1)",
+                borderRadius: "10px",
+                backgroundColor: "#fff",
+              }}
+            >
               <h2 style={{ marginTop: "0" }}>Experience</h2>
               <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
                 {candidate.experience.map((exp, idx) => (
-                  <div key={idx} style={{
-                    paddingBottom: "20px",
-                    borderBottom: idx < candidate.experience.length - 1
-                      ? "1px solid rgba(12, 15, 29, 0.05)"
-                      : "none"
-                  }}>
+                  <div
+                    key={idx}
+                    style={{
+                      paddingBottom: "20px",
+                      borderBottom:
+                        idx < candidate.experience.length - 1
+                          ? "1px solid rgba(12, 15, 29, 0.05)"
+                          : "none",
+                    }}
+                  >
                     <h3 style={{ margin: "0 0 5px" }}>{exp.title}</h3>
-                    <p style={{ margin: "0 0 8px", color: "var(--muted)" }}>
-                      {exp.company}
-                    </p>
+                    <p style={{ margin: "0 0 8px", color: "var(--muted)" }}>{exp.company}</p>
                     <p style={{ margin: "0", fontSize: "0.85rem", color: "var(--muted)" }}>
                       {exp.startDate} - {exp.endDate}
                     </p>
                     {exp.description && (
-                      <p style={{ margin: "10px 0 0", lineHeight: "1.6" }}>
-                        {exp.description}
-                      </p>
+                      <p style={{ margin: "10px 0 0", lineHeight: "1.6" }}>{exp.description}</p>
                     )}
                   </div>
                 ))}
@@ -194,32 +203,38 @@ export default function CandidateDetails() {
         {/* Sidebar */}
         <div>
           {/* Account Status */}
-          <div style={{
-            padding: "20px",
-            border: "1px solid rgba(12, 15, 29, 0.1)",
-            borderRadius: "10px",
-            backgroundColor: "#fff",
-            marginBottom: "20px"
-          }}>
+          <div
+            style={{
+              padding: "20px",
+              border: "1px solid rgba(12, 15, 29, 0.1)",
+              borderRadius: "10px",
+              backgroundColor: "#fff",
+              marginBottom: "20px",
+            }}
+          >
             <h3 style={{ marginTop: "0" }}>Account Status</h3>
-            <div style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "15px"
-            }}>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "15px",
+              }}
+            >
               <div>
                 <p style={{ margin: "0 0 8px", color: "var(--muted)", fontSize: "0.85rem" }}>
                   Status
                 </p>
-                <div style={{
-                  display: "inline-block",
-                  padding: "6px 12px",
-                  backgroundColor: candidate.emailVerified ? "#4caf50" : "#ff9800",
-                  color: "#fff",
-                  borderRadius: "20px",
-                  fontSize: "0.85rem",
-                  fontWeight: "600"
-                }}>
+                <div
+                  style={{
+                    display: "inline-block",
+                    padding: "6px 12px",
+                    backgroundColor: candidate.emailVerified ? "#4caf50" : "#ff9800",
+                    color: "#fff",
+                    borderRadius: "20px",
+                    fontSize: "0.85rem",
+                    fontWeight: "600",
+                  }}
+                >
                   {candidate.emailVerified ? "Email Verified" : "Unverified"}
                 </div>
               </div>
@@ -237,36 +252,40 @@ export default function CandidateDetails() {
                 <p style={{ margin: "0 0 8px", color: "var(--muted)", fontSize: "0.85rem" }}>
                   Profile Completeness
                 </p>
-                <div style={{
-                  width: "100%",
-                  height: "8px",
-                  backgroundColor: "rgba(12, 15, 29, 0.1)",
-                  borderRadius: "4px",
-                  overflow: "hidden",
-                  marginTop: "5px"
-                }}>
-                  <div style={{
-                    width: "75%",
-                    height: "100%",
-                    backgroundColor: "var(--accent)"
-                  }} />
+                <div
+                  style={{
+                    width: "100%",
+                    height: "8px",
+                    backgroundColor: "rgba(12, 15, 29, 0.1)",
+                    borderRadius: "4px",
+                    overflow: "hidden",
+                    marginTop: "5px",
+                  }}
+                >
+                  <div
+                    style={{
+                      width: "75%",
+                      height: "100%",
+                      backgroundColor: "var(--accent)",
+                    }}
+                  />
                 </div>
-                <p style={{ margin: "5px 0 0", fontSize: "0.85rem", color: "var(--muted)" }}>
-                  75%
-                </p>
+                <p style={{ margin: "5px 0 0", fontSize: "0.85rem", color: "var(--muted)" }}>75%</p>
               </div>
             </div>
           </div>
 
           {/* Applications Stats */}
           {candidate.applicationCount && (
-            <div style={{
-              padding: "20px",
-              border: "1px solid rgba(12, 15, 29, 0.1)",
-              borderRadius: "10px",
-              backgroundColor: "#fff",
-              marginBottom: "20px"
-            }}>
+            <div
+              style={{
+                padding: "20px",
+                border: "1px solid rgba(12, 15, 29, 0.1)",
+                borderRadius: "10px",
+                backgroundColor: "#fff",
+                marginBottom: "20px",
+              }}
+            >
               <h3 style={{ marginTop: "0" }}>Applications</h3>
               <div>
                 <p style={{ margin: "0 0 8px", color: "var(--muted)", fontSize: "0.85rem" }}>
@@ -281,12 +300,14 @@ export default function CandidateDetails() {
 
           {/* Documents */}
           {candidate.resume && (
-            <div style={{
-              padding: "20px",
-              border: "1px solid rgba(12, 15, 29, 0.1)",
-              borderRadius: "10px",
-              backgroundColor: "#fff"
-            }}>
+            <div
+              style={{
+                padding: "20px",
+                border: "1px solid rgba(12, 15, 29, 0.1)",
+                borderRadius: "10px",
+                backgroundColor: "#fff",
+              }}
+            >
               <h3 style={{ marginTop: "0" }}>Documents</h3>
               <a
                 href={candidate.resume}

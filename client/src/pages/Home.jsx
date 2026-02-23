@@ -20,7 +20,7 @@ export default function Home() {
         setLoading(true);
         const [paidRes, appliedRes] = await Promise.all([
           jobAPI.getHighestPaidJobs(),
-          jobAPI.getMostAppliedJobs()
+          jobAPI.getMostAppliedJobs(),
         ]);
         setHighestPaid(paidRes.data || []);
         setMostApplied(appliedRes.data || []);
@@ -45,7 +45,7 @@ export default function Home() {
         borderRadius: "10px",
         cursor: "pointer",
         transition: "all 0.2s",
-        backgroundColor: "#fff"
+        backgroundColor: "#fff",
       }}
       onClick={() => navigate(`/jobs/${job._id}`)}
       onMouseEnter={(e) => {
@@ -78,18 +78,20 @@ export default function Home() {
               padding: "4px 10px",
               backgroundColor: "var(--accent)",
               color: "#fff",
-              borderRadius: "20px"
+              borderRadius: "20px",
             }}
           >
             {skill}
           </span>
         ))}
         {job.skills?.length > 3 && (
-          <span style={{
-            fontSize: "0.8rem",
-            padding: "4px 10px",
-            color: "var(--muted)"
-          }}>
+          <span
+            style={{
+              fontSize: "0.8rem",
+              padding: "4px 10px",
+              color: "var(--muted)",
+            }}
+          >
             +{job.skills.length - 3}
           </span>
         )}
@@ -100,20 +102,24 @@ export default function Home() {
   return (
     <div className="page">
       {/* Hero Section */}
-      <section style={{
-        textAlign: "center",
-        paddingBottom: "60px",
-        borderBottom: "1px solid rgba(12, 15, 29, 0.1)",
-        marginBottom: "60px"
-      }}>
+      <section
+        style={{
+          textAlign: "center",
+          paddingBottom: "60px",
+          borderBottom: "1px solid rgba(12, 15, 29, 0.1)",
+          marginBottom: "60px",
+        }}
+      >
         <h1 style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", marginBottom: "20px" }}>
           Find Your Dream Job
         </h1>
-        <p style={{
-          fontSize: "1.2rem",
-          color: "var(--muted)",
-          marginBottom: "40px"
-        }}>
+        <p
+          style={{
+            fontSize: "1.2rem",
+            color: "var(--muted)",
+            marginBottom: "40px",
+          }}
+        >
           Explore thousands of job opportunities with all the information you need
         </p>
         <Link to="/jobs" className="btn btn-primary" style={{ padding: "12px 30px" }}>
@@ -122,39 +128,47 @@ export default function Home() {
       </section>
 
       {/* Hero Stats */}
-      <section style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-        gap: "20px",
-        marginBottom: "60px"
-      }}>
-        <div style={{
-          padding: "30px",
-          backgroundColor: "var(--accent)",
-          color: "#fff",
-          borderRadius: "10px",
-          textAlign: "center"
-        }}>
+      <section
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+          gap: "20px",
+          marginBottom: "60px",
+        }}
+      >
+        <div
+          style={{
+            padding: "30px",
+            backgroundColor: "var(--accent)",
+            color: "#fff",
+            borderRadius: "10px",
+            textAlign: "center",
+          }}
+        >
           <div style={{ fontSize: "2rem", fontWeight: "bold" }}>1000+</div>
           <p style={{ margin: "8px 0 0", opacity: "0.9" }}>Active Jobs</p>
         </div>
-        <div style={{
-          padding: "30px",
-          backgroundColor: "var(--accent)",
-          color: "#fff",
-          borderRadius: "10px",
-          textAlign: "center"
-        }}>
+        <div
+          style={{
+            padding: "30px",
+            backgroundColor: "var(--accent)",
+            color: "#fff",
+            borderRadius: "10px",
+            textAlign: "center",
+          }}
+        >
           <div style={{ fontSize: "2rem", fontWeight: "bold" }}>500+</div>
           <p style={{ margin: "8px 0 0", opacity: "0.9" }}>Companies</p>
         </div>
-        <div style={{
-          padding: "30px",
-          backgroundColor: "var(--accent)",
-          color: "#fff",
-          borderRadius: "10px",
-          textAlign: "center"
-        }}>
+        <div
+          style={{
+            padding: "30px",
+            backgroundColor: "var(--accent)",
+            color: "#fff",
+            borderRadius: "10px",
+            textAlign: "center",
+          }}
+        >
           <div style={{ fontSize: "2rem", fontWeight: "bold" }}>10K+</div>
           <p style={{ margin: "8px 0 0", opacity: "0.9" }}>Happy Candidates</p>
         </div>
@@ -163,29 +177,36 @@ export default function Home() {
       {/* Highest Paid Jobs Section */}
       {highestPaid.length > 0 && (
         <section style={{ marginBottom: "60px" }}>
-          <div style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginBottom: "30px"
-          }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginBottom: "30px",
+            }}
+          >
             <div>
               <h2 style={{ margin: "0 0 8px" }}>Highest Paying Jobs</h2>
               <p style={{ margin: "0", color: "var(--muted)" }}>Top salary opportunities</p>
             </div>
-            <Link to="/jobs" style={{
-              color: "var(--accent)",
-              textDecoration: "none",
-              fontWeight: "600"
-            }}>
+            <Link
+              to="/jobs"
+              style={{
+                color: "var(--accent)",
+                textDecoration: "none",
+                fontWeight: "600",
+              }}
+            >
               View All →
             </Link>
           </div>
-          <div style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
-            gap: "20px"
-          }}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+              gap: "20px",
+            }}
+          >
             {highestPaid.slice(0, 3).map(renderJobCard)}
           </div>
         </section>
@@ -194,29 +215,36 @@ export default function Home() {
       {/* Most Applied Jobs Section */}
       {mostApplied.length > 0 && (
         <section>
-          <div style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginBottom: "30px"
-          }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginBottom: "30px",
+            }}
+          >
             <div>
               <h2 style={{ margin: "0 0 8px" }}>Most Popular Jobs</h2>
               <p style={{ margin: "0", color: "var(--muted)" }}>Trending opportunities</p>
             </div>
-            <Link to="/jobs" style={{
-              color: "var(--accent)",
-              textDecoration: "none",
-              fontWeight: "600"
-            }}>
+            <Link
+              to="/jobs"
+              style={{
+                color: "var(--accent)",
+                textDecoration: "none",
+                fontWeight: "600",
+              }}
+            >
               View All →
             </Link>
           </div>
-          <div style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
-            gap: "20px"
-          }}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+              gap: "20px",
+            }}
+          >
             {mostApplied.slice(0, 3).map(renderJobCard)}
           </div>
         </section>
@@ -224,24 +252,30 @@ export default function Home() {
 
       {/* CTA Section */}
       {!user && (
-        <section style={{
-          backgroundColor: "var(--accent)",
-          color: "#fff",
-          padding: "60px 40px",
-          borderRadius: "10px",
-          textAlign: "center",
-          marginTop: "60px"
-        }}>
+        <section
+          style={{
+            backgroundColor: "var(--accent)",
+            color: "#fff",
+            padding: "60px 40px",
+            borderRadius: "10px",
+            textAlign: "center",
+            marginTop: "60px",
+          }}
+        >
           <h2 style={{ margin: "0 0 15px" }}>Ready to Start Your Journey?</h2>
           <p style={{ margin: "0 0 30px", fontSize: "1.1rem", opacity: "0.95" }}>
             Create an account and apply to your dream jobs today
           </p>
-          <Link to="/signup" className="btn" style={{
-            backgroundColor: "#fff",
-            color: "var(--accent)",
-            display: "inline-block",
-            padding: "12px 30px"
-          }}>
+          <Link
+            to="/signup"
+            className="btn"
+            style={{
+              backgroundColor: "#fff",
+              color: "var(--accent)",
+              display: "inline-block",
+              padding: "12px 30px",
+            }}
+          >
             Get Started
           </Link>
         </section>

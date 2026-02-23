@@ -110,19 +110,28 @@ export default function Landing() {
             </div>
             <div className="stat-item">
               <div className="stat-number">
-                {stats.companies > 1000 ? `${(stats.companies / 1000).toFixed(1)}k+` : stats.companies}+
+                {stats.companies > 1000
+                  ? `${(stats.companies / 1000).toFixed(1)}k+`
+                  : stats.companies}
+                +
               </div>
               <div className="stat-label">Companies</div>
             </div>
             <div className="stat-item">
               <div className="stat-number">
-                {stats.candidates > 1000 ? `${(stats.candidates / 1000).toFixed(1)}k+` : stats.candidates}+
+                {stats.candidates > 1000
+                  ? `${(stats.candidates / 1000).toFixed(1)}k+`
+                  : stats.candidates}
+                +
               </div>
               <div className="stat-label">Active Candidates</div>
             </div>
             <div className="stat-item">
               <div className="stat-number">
-                {stats.placements > 1000 ? `${(stats.placements / 1000).toFixed(1)}k+` : stats.placements}+
+                {stats.placements > 1000
+                  ? `${(stats.placements / 1000).toFixed(1)}k+`
+                  : stats.placements}
+                +
               </div>
               <div className="stat-label">Successful Placements</div>
             </div>

@@ -1,5 +1,5 @@
-const multer = require("multer");
-const path = require("path");
+import multer from "multer";
+import path from "path";
 
 // Switch to Memory Storage
 const storage = multer.memoryStorage();
@@ -21,4 +21,4 @@ const pdfUploader = multer({
   },
 });
 
-module.exports = pdfUploader;
+export default pdfUploader;

@@ -1,16 +1,16 @@
-const Company = require("../models/Company");
+import Company from "../models/Company.js";
 
-exports.createCompanyService = async (data) => {
+export const createCompanyService = async (data) => {
   const company = await Company.create(data);
   return company;
 };
 
-exports.getCompanyByIdService = async (id) => {
+export const getCompanyByIdService = async (id) => {
   const company = await Company.findById(id);
   return company;
 };
 
-exports.getCompaniesService = async (filters, queries) => {
+export const getCompaniesService = async (filters, queries) => {
   const companies = await Company.find(filters)
     .skip(queries.skip)
     .limit(queries.limit)

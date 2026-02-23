@@ -1,8 +1,9 @@
-const express = require("express");
-const userController = require("../controllers/user.controller");
-const authorization = require("../middleware/authorization");
-const verifyToken = require("../middleware/verifyToken");
-const { imageUploader, resumeUploader } = require("../middleware/fileUploader");
+import express from "express";
+import * as userController from "../controllers/user.controller.js";
+import authorization from "../middleware/authorization.js";
+import verifyToken from "../middleware/verifyToken.js";
+import { imageUploader, resumeUploader } from "../middleware/fileUploader.js";
+
 const router = express.Router();
 
 // Auth Routes (no email required)
@@ -15,8 +16,18 @@ router.get("/me", verifyToken, userController.getMe);
 router.patch("/me", verifyToken, userController.updateProfile);
 
 // File Uploads (protected)
-router.post("/upload-image", verifyToken, imageUploader.single("image"), userController.uploadProfileImage);
-router.post("/upload-resume", verifyToken, resumeUploader.single("resume"), userController.uploadProfileResume);
+router.post(
+  "/upload-image",
+  verifyToken,
+  imageUploader.single("image"),
+  userController.uploadProfileImage
+);
+router.post(
+  "/upload-resume",
+  verifyToken,
+  resumeUploader.single("resume"),
+  userController.uploadProfileResume
+);
 
 // Change Password (protected — uses old password to verify identity)
 router.patch("/change-password", verifyToken, userController.changePassword);
@@ -30,4 +41,4 @@ router.get("/candidate/:id", verifyToken, authorization("Admin"), userController
 router.get("/hiring-managers", verifyToken, authorization("Admin"), userController.getManagers);
 router.put("/promote/:id", verifyToken, authorization("Admin"), userController.promoteUserRole);
 
-module.exports = router;
+export default router;

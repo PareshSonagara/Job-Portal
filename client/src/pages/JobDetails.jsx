@@ -19,7 +19,7 @@ export default function JobDetails() {
   const [savedResumeURL, setSavedResumeURL] = useState(user?.resumeURL || null);
   const [formData, setFormData] = useState({
     resume: null,
-    coverLetter: ""
+    coverLetter: "",
   });
   const [useProfileResume, setUseProfileResume] = useState(true);
   const [errors, setErrors] = useState({});
@@ -51,9 +51,7 @@ export default function JobDetails() {
         if (profile.resumeURL) setSavedResumeURL(profile.resumeURL);
         // Check if already applied
         const appliedJobs = profile.appliedJobs || [];
-        const alreadyApplied = appliedJobs.some(
-          (app) => (app.job?._id || app.job) === id
-        );
+        const alreadyApplied = appliedJobs.some((app) => (app.job?._id || app.job) === id);
         if (alreadyApplied) setApplied(true);
       } catch {
         // silently ignore
@@ -118,7 +116,9 @@ export default function JobDetails() {
     return (
       <div className="page" style={{ textAlign: "center" }}>
         <p>Job not found</p>
-        <Link to="/jobs" className="btn btn-primary">Back to Jobs</Link>
+        <Link to="/jobs" className="btn btn-primary">
+          Back to Jobs
+        </Link>
       </div>
     );
   }
@@ -126,14 +126,16 @@ export default function JobDetails() {
   return (
     <div className="page">
       {/* Job Header */}
-      <div style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "start",
-        marginBottom: "30px",
-        paddingBottom: "30px",
-        borderBottom: "1px solid rgba(12, 15, 29, 0.1)"
-      }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "start",
+          marginBottom: "30px",
+          paddingBottom: "30px",
+          borderBottom: "1px solid rgba(12, 15, 29, 0.1)",
+        }}
+      >
         <div style={{ flex: "1" }}>
           <h1 style={{ margin: "0 0 10px" }}>{job.jobTitle}</h1>
           <p style={{ margin: "0 0 15px", color: "var(--muted)", fontSize: "1.05rem" }}>
@@ -159,13 +161,15 @@ export default function JobDetails() {
                 Apply Now
               </button>
             ) : (
-              <div style={{
-                padding: "10px 20px",
-                backgroundColor: "var(--accent)",
-                color: "#fff",
-                borderRadius: "10px",
-                fontWeight: "600"
-              }}>
+              <div
+                style={{
+                  padding: "10px 20px",
+                  backgroundColor: "var(--accent)",
+                  color: "#fff",
+                  borderRadius: "10px",
+                  fontWeight: "600",
+                }}
+              >
                 ✓ Applied
               </div>
             )}
@@ -173,19 +177,19 @@ export default function JobDetails() {
         )}
       </div>
 
-      <div style={{
-        display: "grid",
-        gridTemplateColumns: "2fr 1fr",
-        gap: "30px"
-      }}>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "2fr 1fr",
+          gap: "30px",
+        }}
+      >
         {/* Main Content */}
         <div>
           {/* Job Description */}
           <section style={{ marginBottom: "30px" }}>
             <h2>About this role</h2>
-            <p style={{ lineHeight: "1.7", color: "var(--ink)" }}>
-              {job.jobDescription}
-            </p>
+            <p style={{ lineHeight: "1.7", color: "var(--ink)" }}>{job.jobDescription}</p>
           </section>
 
           {/* Requirements */}
@@ -205,7 +209,7 @@ export default function JobDetails() {
             <section style={{ marginBottom: "30px" }}>
               <h2>Required Skills</h2>
               <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
-                {job.skills.map(skill => (
+                {job.skills.map((skill) => (
                   <span
                     key={skill}
                     style={{
@@ -213,7 +217,7 @@ export default function JobDetails() {
                       backgroundColor: "var(--accent)",
                       color: "#fff",
                       borderRadius: "20px",
-                      fontSize: "0.9rem"
+                      fontSize: "0.9rem",
                     }}
                   >
                     {skill}
@@ -225,11 +229,14 @@ export default function JobDetails() {
 
           {/* Application Form */}
           {user && user.role === "Candidate" && !applied && (
-            <section id="apply-form" style={{
-              padding: "30px",
-              backgroundColor: "rgba(12, 15, 29, 0.03)",
-              borderRadius: "10px"
-            }}>
+            <section
+              id="apply-form"
+              style={{
+                padding: "30px",
+                backgroundColor: "rgba(12, 15, 29, 0.03)",
+                borderRadius: "10px",
+              }}
+            >
               <h2 style={{ marginTop: "0" }}>Apply for this position</h2>
               <form onSubmit={handleApply}>
                 {errors.submit && <div className="error-message">{errors.submit}</div>}
@@ -239,41 +246,62 @@ export default function JobDetails() {
 
                   {/* Option A: Use existing profile resume */}
                   {effectiveResumeURL && (
-                    <div style={{
-                      padding: "12px 16px",
-                      border: `2px solid ${useProfileResume ? "var(--accent)" : "rgba(12,15,29,0.1)"}`,
-                      borderRadius: "8px",
-                      marginBottom: "12px",
-                      cursor: "pointer",
-                      backgroundColor: useProfileResume ? "rgba(99,102,241,0.05)" : "#fff",
-                    }}
-                      onClick={() => { setUseProfileResume(true); setFormData({ ...formData, resume: null }); }}
+                    <div
+                      style={{
+                        padding: "12px 16px",
+                        border: `2px solid ${useProfileResume ? "var(--accent)" : "rgba(12,15,29,0.1)"}`,
+                        borderRadius: "8px",
+                        marginBottom: "12px",
+                        cursor: "pointer",
+                        backgroundColor: useProfileResume ? "rgba(99,102,241,0.05)" : "#fff",
+                      }}
+                      onClick={() => {
+                        setUseProfileResume(true);
+                        setFormData({ ...formData, resume: null });
+                      }}
                     >
-                      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                        }}
+                      >
                         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
                           <span style={{ fontSize: "1.3rem" }}>📄</span>
                           <div>
-                            <p style={{ margin: "0", fontWeight: "600", fontSize: "0.9rem" }}>Use my saved resume</p>
-                            <a href={resolveUrl(effectiveResumeURL)} target="_blank" rel="noopener noreferrer"
+                            <p style={{ margin: "0", fontWeight: "600", fontSize: "0.9rem" }}>
+                              Use my saved resume
+                            </p>
+                            <a
+                              href={resolveUrl(effectiveResumeURL)}
+                              target="_blank"
+                              rel="noopener noreferrer"
                               style={{ fontSize: "0.8rem", color: "var(--accent)" }}
-                              onClick={(e) => e.stopPropagation()}>
+                              onClick={(e) => e.stopPropagation()}
+                            >
                               Preview →
                             </a>
                           </div>
                         </div>
-                        {useProfileResume && <span style={{ color: "var(--accent)", fontWeight: "700" }}>✓ Selected</span>}
+                        {useProfileResume && (
+                          <span style={{ color: "var(--accent)", fontWeight: "700" }}>
+                            ✓ Selected
+                          </span>
+                        )}
                       </div>
                     </div>
                   )}
 
                   {/* Option B: Upload a new resume */}
-                  <div style={{
-                    padding: "12px 16px",
-                    border: `2px solid ${!useProfileResume ? "var(--accent)" : "rgba(12,15,29,0.1)"}`,
-                    borderRadius: "8px",
-                    cursor: "pointer",
-                    backgroundColor: !useProfileResume ? "rgba(99,102,241,0.05)" : "#fff",
-                  }}
+                  <div
+                    style={{
+                      padding: "12px 16px",
+                      border: `2px solid ${!useProfileResume ? "var(--accent)" : "rgba(12,15,29,0.1)"}`,
+                      borderRadius: "8px",
+                      cursor: "pointer",
+                      backgroundColor: !useProfileResume ? "rgba(99,102,241,0.05)" : "#fff",
+                    }}
                     onClick={() => setUseProfileResume(false)}
                   >
                     <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
@@ -295,7 +323,17 @@ export default function JobDetails() {
                           className={errors.resume ? "error" : ""}
                           style={{ width: "100%" }}
                         />
-                        {formData.resume && <p style={{ margin: "6px 0 0", fontSize: "0.85rem", color: "var(--muted)" }}>Selected: {formData.resume.name}</p>}
+                        {formData.resume && (
+                          <p
+                            style={{
+                              margin: "6px 0 0",
+                              fontSize: "0.85rem",
+                              color: "var(--muted)",
+                            }}
+                          >
+                            Selected: {formData.resume.name}
+                          </p>
+                        )}
                       </div>
                     )}
                   </div>
@@ -304,7 +342,12 @@ export default function JobDetails() {
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="coverLetter">Cover Letter <span style={{ color: "var(--muted)", fontWeight: 400, fontSize: "0.85rem" }}>(optional)</span></label>
+                  <label htmlFor="coverLetter">
+                    Cover Letter{" "}
+                    <span style={{ color: "var(--muted)", fontWeight: 400, fontSize: "0.85rem" }}>
+                      (optional)
+                    </span>
+                  </label>
                   <textarea
                     id="coverLetter"
                     placeholder="Tell us why you're interested in this position..."
@@ -334,18 +377,21 @@ export default function JobDetails() {
           )}
 
           {applied && (
-            <div style={{
-              padding: "30px",
-              backgroundColor: "rgba(76, 175, 80, 0.1)",
-              border: "1px solid rgba(76, 175, 80, 0.3)",
-              borderRadius: "10px",
-              textAlign: "center",
-              marginTop: "30px"
-            }}>
+            <div
+              style={{
+                padding: "30px",
+                backgroundColor: "rgba(76, 175, 80, 0.1)",
+                border: "1px solid rgba(76, 175, 80, 0.3)",
+                borderRadius: "10px",
+                textAlign: "center",
+                marginTop: "30px",
+              }}
+            >
               <div style={{ fontSize: "2rem", marginBottom: "15px" }}>✓</div>
               <h3>Application Submitted!</h3>
               <p style={{ color: "var(--muted)" }}>
-                Thank you for applying. The hiring team will review your application and contact you soon.
+                Thank you for applying. The hiring team will review your application and contact you
+                soon.
               </p>
             </div>
           )}
@@ -354,11 +400,13 @@ export default function JobDetails() {
         {/* Sidebar */}
         <div>
           {/* Company Card */}
-          <div style={{
-            padding: "20px",
-            border: "1px solid rgba(12, 15, 29, 0.1)",
-            borderRadius: "10px"
-          }}>
+          <div
+            style={{
+              padding: "20px",
+              border: "1px solid rgba(12, 15, 29, 0.1)",
+              borderRadius: "10px",
+            }}
+          >
             <h3 style={{ marginTop: "0" }}>About Company</h3>
             <h4 style={{ margin: "0 0 8px" }}>{job.companyInfo?.companyName || "Company"}</h4>
             <p style={{ margin: "0", color: "var(--muted)", fontSize: "0.9rem" }}>
@@ -380,12 +428,14 @@ export default function JobDetails() {
           </div>
 
           {/* Job Details Card */}
-          <div style={{
-            padding: "20px",
-            border: "1px solid rgba(12, 15, 29, 0.1)",
-            borderRadius: "10px",
-            marginTop: "20px"
-          }}>
+          <div
+            style={{
+              padding: "20px",
+              border: "1px solid rgba(12, 15, 29, 0.1)",
+              borderRadius: "10px",
+              marginTop: "20px",
+            }}
+          >
             <h3 style={{ marginTop: "0" }}>Job Details</h3>
             <div style={{ display: "flex", flexDirection: "column", gap: "15px" }}>
               {job.jobNature && (
@@ -399,14 +449,6 @@ export default function JobDetails() {
                   <p style={{ margin: "0", color: "var(--muted)", fontSize: "0.9rem" }}>Deadline</p>
                   <p style={{ margin: "5px 0 0", fontWeight: "600" }}>
                     {new Date(job.deadline).toLocaleDateString()}
-                  </p>
-                </div>
-              )}
-              {job.applicationDeadline && (
-                <div>
-                  <p style={{ margin: "0", color: "var(--muted)", fontSize: "0.9rem" }}>Application Deadline</p>
-                  <p style={{ margin: "5px 0 0", fontWeight: "600" }}>
-                    {new Date(job.applicationDeadline).toLocaleDateString()}
                   </p>
                 </div>
               )}

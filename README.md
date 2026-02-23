@@ -1,10 +1,9 @@
 # Professional Job Portal
 
-A full-stack, professional-grade job portal featuring robust Google OAuth authentication, mass-seeded data (1000+ jobs), and a clean, responsive UI.
+A full-stack, professional-grade job portal featuring robust Google OAuth authentication and a clean, responsive UI.
 
 ## 🚀 Key Features
 - **Google OAuth**: One-click login and signup, seamlessly integrated with Mongoose.
-- **Massive Dataset**: Over 1000 jobs, 300 users, and 100 companies pre-seeded for a production feel.
 - **Professional Branding**: Custom logo and refined UI for a premium experience.
 - **Role-Based Access**: Specialized dashboards for Candidates (Job Seekers) and Hiring Managers.
 
@@ -75,5 +74,4 @@ npm run dev
 
 ---
 
-## 🧹 Maintenance
-- **Seeding Data**: Run `node seed.js` in the `server` directory to perform a clean mass-seed (Warning: This clears the existing database).
+

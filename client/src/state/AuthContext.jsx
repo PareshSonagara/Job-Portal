@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
 import { userAPI } from "../lib/api";
 
 const AuthContext = createContext();
@@ -20,29 +20,12 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Load user profile on mount if token exists
-  useEffect(() => {
-    if (token) {
-      loadUserProfile();
-    } else {
-      setLoading(false);
-    }
-  }, []);
-
-  // Auto-logout when api.js detects a 401 (token expired / invalid)
-  useEffect(() => {
-    const handleForceLogout = () => {
-      localStorage.removeItem("jwt_token");
-      setToken(null);
-      setUser(null);
-    };
-    window.addEventListener("auth:logout", handleForceLogout);
-    return () => window.removeEventListener("auth:logout", handleForceLogout);
-  }, []);
-
-  const loadUserProfile = async () => {
+  const loadUserProfile = useCallback(async () => {
     const authToken = normalizeToken(token || localStorage.getItem("jwt_token"));
-    if (!authToken) { setLoading(false); return; }
+    if (!authToken) {
+      setLoading(false);
+      return;
+    }
     try {
       setLoading(true);
       const response = await userAPI.getProfile(authToken);
@@ -57,7 +40,27 @@ export const AuthProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [token]);
+
+  // Load user profile on mount if token exists
+  useEffect(() => {
+    if (token) {
+      loadUserProfile();
+    } else {
+      setLoading(false);
+    }
+  }, [token, loadUserProfile]);
+
+  // Auto-logout when api.js detects a 401 (token expired / invalid)
+  useEffect(() => {
+    const handleForceLogout = () => {
+      localStorage.removeItem("jwt_token");
+      setToken(null);
+      setUser(null);
+    };
+    window.addEventListener("auth:logout", handleForceLogout);
+    return () => window.removeEventListener("auth:logout", handleForceLogout);
+  }, []);
 
   const signup = async (data) => {
     try {
@@ -141,9 +144,20 @@ export const AuthProvider = ({ children }) => {
   const isAdmin = user?.role === "Admin";
 
   const value = {
-    user, token, loading, error,
-    isAuthenticated, isCandidate, isHiringManager, isAdmin,
-    signup, login, googleLogin, logout, updateProfile, loadUserProfile,
+    user,
+    token,
+    loading,
+    error,
+    isAuthenticated,
+    isCandidate,
+    isHiringManager,
+    isAdmin,
+    signup,
+    login,
+    googleLogin,
+    logout,
+    updateProfile,
+    loadUserProfile,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

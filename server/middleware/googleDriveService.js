@@ -1,5 +1,5 @@
-const { google } = require("googleapis");
-const streamifier = require("streamifier");
+import { google } from "googleapis";
+import streamifier from "streamifier";
 
 /**
  * Initializes Google OAuth2 Client
@@ -22,7 +22,7 @@ const setAuth = () => {
  * @param {object} file - Express file object (req.file)
  * @returns {Promise<string>} - Public viewable URL of the uploaded file
  */
-exports.uploadToGoogleDrive = async (file) => {
+export const uploadToGoogleDrive = async (file) => {
   console.log(`🚀 Starting Google Drive upload for: ${file.originalname}`);
   try {
     setAuth();
@@ -66,11 +66,4 @@ exports.uploadToGoogleDrive = async (file) => {
     }
     throw new Error(`Google Drive Upload Failed: ${error.message}`);
   }
-};
-
-/**
- * No-op for memory storage compatibility 
- */
-exports.deleteLocalFile = (filePath) => {
-  // Logic not required for Memory Storage, but kept for signature compatibility
 };

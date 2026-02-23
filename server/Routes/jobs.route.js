@@ -1,10 +1,10 @@
-const { Router } = require("express");
-const express = require("express");
+import express from "express";
+import * as jobController from "../controllers/job.controller.js";
+import authorization from "../middleware/authorization.js";
+import pdfUploader from "../middleware/pdfUploader.js";
+import verifyToken from "../middleware/verifyToken.js";
+
 const router = express.Router();
-const jobController = require("../controllers/job.controller");
-const authorization = require("../middleware/authorization");
-const pdfUploader = require("../middleware/pdfUploader");
-const verifyToken = require("../middleware/verifyToken");
 // Jobs Route
 router.route("/jobs/highest-paid-jobs").get(jobController.getHighestPaidJobs);
 
@@ -14,19 +14,11 @@ router.route("/jobs/stats").get(jobController.getPortalStats);
 router
   .route("/jobs")
   .get(jobController.getAllJobs)
-  .post(
-    verifyToken,
-    authorization("Admin", "Hiring-Manager"),
-    jobController.createJob
-  );
+  .post(verifyToken, authorization("Admin", "Hiring-Manager"), jobController.createJob);
 
 router
   .route("/manager/jobs")
-  .get(
-    verifyToken,
-    authorization("Admin", "Hiring-Manager"),
-    jobController.getJobsByManagerToken
-  );
+  .get(verifyToken, authorization("Admin", "Hiring-Manager"), jobController.getJobsByManagerToken);
 
 router
   .route("/manager/jobs/:id")
@@ -39,11 +31,7 @@ router
 router
   .route("/jobs/:id")
   .get(jobController.getJobById)
-  .patch(
-    verifyToken,
-    authorization("Admin", "Hiring-Manager"),
-    jobController.updateJob
-  );
+  .patch(verifyToken, authorization("Admin", "Hiring-Manager"), jobController.updateJob);
 
 router
   .route("/jobs/:id/apply")
@@ -70,4 +58,4 @@ router
     jobController.updateApplicationFeedback
   );
 
-module.exports = router;
+export default router;

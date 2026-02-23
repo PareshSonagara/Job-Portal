@@ -18,9 +18,9 @@ export default function CreateJob() {
     jobNature: "remote",
     skills: "",
     requirements: "",
-    applicationDeadline: "",
+    deadline: "",
     companyName: "",
-    companyWebsite: ""
+    companyWebsite: "",
   });
   const [errors, setErrors] = useState({});
 
@@ -31,9 +31,9 @@ export default function CreateJob() {
     if (!formData.location.trim()) newErrors.location = "Location is required";
     if (!formData.salary) newErrors.salary = "Salary is required";
     if (Number(formData.salary) <= 0) newErrors.salary = "Salary must be positive";
-    if (!formData.applicationDeadline) newErrors.applicationDeadline = "Deadline is required";
-    if (new Date(formData.applicationDeadline) <= new Date()) {
-      newErrors.applicationDeadline = "Deadline must be in the future";
+    if (!formData.deadline) newErrors.deadline = "Deadline is required";
+    if (new Date(formData.deadline) <= new Date()) {
+      newErrors.deadline = "Deadline must be in the future";
     }
     if (!formData.companyName.trim()) newErrors.companyName = "Company name is required";
     if (!formData.companyWebsite.trim()) newErrors.companyWebsite = "Company website is required";
@@ -63,12 +63,14 @@ export default function CreateJob() {
         jobNature: formData.jobNature,
         jobDescription: formData.description,
         salary: Number(formData.salary),
-        deadline: formData.applicationDeadline,
+        deadline: formData.deadline,
         location: formData.location,
         companyName: formData.companyName,
         companyWebsite: formData.companyWebsite,
-        skills: formData.skills ? formData.skills.split(",").map(s => s.trim()) : [],
-        requirements: formData.requirements ? formData.requirements.split("\n").filter(r => r.trim()) : []
+        skills: formData.skills ? formData.skills.split(",").map((s) => s.trim()) : [],
+        requirements: formData.requirements
+          ? formData.requirements.split("\n").filter((r) => r.trim())
+          : [],
       };
 
       await jobAPI.createJob(jobData, token);
@@ -95,7 +97,9 @@ export default function CreateJob() {
   return (
     <div className="page">
       <h1>Post a New Job</h1>
-      <p style={{ color: "var(--muted)", marginBottom: "30px" }}>Create a new job posting for your company</p>
+      <p style={{ color: "var(--muted)", marginBottom: "30px" }}>
+        Create a new job posting for your company
+      </p>
 
       <form onSubmit={handleSubmit} style={{ maxWidth: "600px" }}>
         {errors.submit && <div className="error-message">{errors.submit}</div>}
@@ -173,6 +177,7 @@ export default function CreateJob() {
             >
               <option value="remote">Remote</option>
               <option value="onsite">Onsite</option>
+              <option value="hybrid">Hybrid</option>
             </select>
           </div>
 
@@ -239,18 +244,18 @@ export default function CreateJob() {
         </div>
 
         <div className="form-group">
-          <label htmlFor="applicationDeadline">Application Deadline *</label>
+          <label htmlFor="deadline">Application Deadline *</label>
           <input
-            id="applicationDeadline"
+            id="deadline"
             type="date"
-            name="applicationDeadline"
-            value={formData.applicationDeadline}
+            name="deadline"
+            value={formData.deadline}
             onChange={handleChange}
             min={today}
-            className={errors.applicationDeadline ? "error" : ""}
+            className={errors.deadline ? "error" : ""}
             disabled={loading}
           />
-          {errors.applicationDeadline && <span className="error">{errors.applicationDeadline}</span>}
+          {errors.deadline && <span className="error">{errors.deadline}</span>}
         </div>
 
         <div style={{ display: "flex", gap: "10px", marginTop: "30px" }}>

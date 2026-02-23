@@ -52,6 +52,10 @@ const apiCallWithFile = async (method, endpoint, formData, token = null) => {
   });
   const result = await response.json();
 
+  if (response.status === 401) {
+    handleUnauthorized();
+  }
+
   if (!response.ok) {
     throw new Error(result.message || result.error || "API Error");
   }
@@ -68,8 +72,10 @@ export const userAPI = {
   getProfile: (token) => apiCall("GET", "/user/me", null, token),
   updateProfile: (data, token) => apiCall("PATCH", "/user/me", data, token),
   changePassword: (data, token) => apiCall("PATCH", "/user/change-password", data, token),
-  uploadProfileImage: (formData, token) => apiCallWithFile("POST", "/user/upload-image", formData, token),
-  uploadProfileResume: (formData, token) => apiCallWithFile("POST", "/user/upload-resume", formData, token),
+  uploadProfileImage: (formData, token) =>
+    apiCallWithFile("POST", "/user/upload-image", formData, token),
+  uploadProfileResume: (formData, token) =>
+    apiCallWithFile("POST", "/user/upload-resume", formData, token),
   getCandidates: (token) => apiCall("GET", "/user/candidates", null, token),
   getCandidateById: (id, token) => apiCall("GET", `/user/candidate/${id}`, null, token),
   getManagers: (token) => apiCall("GET", "/user/hiring-managers", null, token),

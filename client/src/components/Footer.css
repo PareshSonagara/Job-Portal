@@ -1,7 +1,7 @@
 /* ── LinkedIn-style Footer ─────────────────────────────────────────────────── */
 .footer {
   background-color: #fff;
-  border-top: 1px solid #E0DEDE;
+  border-top: 1px solid #e0dede;
   color: #666;
   margin-top: auto;
 }
@@ -19,7 +19,7 @@
   font-size: 1rem;
   font-weight: 700;
   margin-bottom: 10px;
-  color: #0A66C2;
+  color: #0a66c2;
   letter-spacing: -0.2px;
 }
 
@@ -56,16 +56,16 @@
 }
 
 .footer-section ul li a:hover {
-  color: #0A66C2;
+  color: #0a66c2;
   text-decoration: none;
 }
 
 .footer-bottom {
-  border-top: 1px solid #E0DEDE;
+  border-top: 1px solid #e0dede;
   padding: 16px;
   text-align: center;
   font-size: 0.75rem;
-  color: #A8A8A8;
+  color: #a8a8a8;
   max-width: 1128px;
   margin: 0 auto;
 }

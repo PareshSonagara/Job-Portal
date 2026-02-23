@@ -1,5 +1,5 @@
-const jwt = require("jsonwebtoken");
-const { promisify } = require("util");
+import jwt from "jsonwebtoken";
+import { promisify } from "util";
 /**
  * 1. check if token exists
  * 2. if not token send res
@@ -7,17 +7,16 @@ const { promisify } = require("util");
  * 4. if valid next
  */
 
-module.exports = async (req, res, next) => {
+const verifyToken = async (req, res, next) => {
   try {
     const token = req.headers?.authorization?.split(" ")?.[1];
 
-    if(!token){
+    if (!token) {
       return res.status(401).json({
         status: "fail",
-        error: "You are not logged in"
+        error: "You are not logged in",
       });
     }
-    
 
     const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 
@@ -26,12 +25,12 @@ module.exports = async (req, res, next) => {
     req.user = decoded;
 
     next();
-
-
   } catch (error) {
     res.status(403).json({
       status: "fail",
-      error: "Invalid token"
+      error: "Invalid token",
     });
   }
 };
+
+export default verifyToken;

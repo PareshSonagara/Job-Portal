@@ -1,6 +1,6 @@
-const jwt = require("jsonwebtoken");
+import jwt from "jsonwebtoken";
 
-exports.generateToken = (userInfo) => {
+export const generateToken = (userInfo) => {
   const payload = {
     email: userInfo.email,
     role: userInfo.role,

@@ -35,22 +35,25 @@ export default function AdminManagers() {
     loadManagers();
   }, [user, token, navigate, showError]);
 
-  const filteredManagers = managers.filter(manager =>
-    manager.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    manager.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    manager.company?.name?.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredManagers = managers.filter(
+    (manager) =>
+      manager.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      manager.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      manager.company?.name?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   if (loading) return <Loading />;
 
   return (
     <div className="page">
-      <div style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        marginBottom: "30px"
-      }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: "30px",
+        }}
+      >
         <div>
           <h1 style={{ margin: "0" }}>Manage Hiring Managers</h1>
           <p style={{ margin: "8px 0 0", color: "var(--muted)" }}>
@@ -63,11 +66,13 @@ export default function AdminManagers() {
       </div>
 
       {/* Search */}
-      <div style={{
-        marginBottom: "30px",
-        display: "flex",
-        gap: "10px"
-      }}>
+      <div
+        style={{
+          marginBottom: "30px",
+          display: "flex",
+          gap: "10px",
+        }}
+      >
         <div className="form-group" style={{ flex: "1", margin: "0" }}>
           <label htmlFor="search">Search Managers</label>
           <input
@@ -92,44 +97,50 @@ export default function AdminManagers() {
 
       {/* Managers List */}
       {filteredManagers.length === 0 ? (
-        <div style={{
-          textAlign: "center",
-          padding: "60px 20px",
-          color: "var(--muted)"
-        }}>
+        <div
+          style={{
+            textAlign: "center",
+            padding: "60px 20px",
+            color: "var(--muted)",
+          }}
+        >
           <p style={{ fontSize: "1.1rem" }}>
             {managers.length === 0 ? "No managers found" : "No results match your search"}
           </p>
         </div>
       ) : (
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(350px, 1fr))",
-          gap: "20px"
-        }}>
-          {filteredManagers.map(manager => (
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(350px, 1fr))",
+            gap: "20px",
+          }}
+        >
+          {filteredManagers.map((manager) => (
             <div
               key={manager._id}
               style={{
                 padding: "20px",
                 border: "1px solid rgba(12, 15, 29, 0.1)",
                 borderRadius: "10px",
-                backgroundColor: "#fff"
+                backgroundColor: "#fff",
               }}
             >
               <div style={{ display: "flex", alignItems: "center", marginBottom: "15px" }}>
-                <div style={{
-                  width: "50px",
-                  height: "50px",
-                  borderRadius: "50%",
-                  backgroundColor: "var(--accent)",
-                  color: "#fff",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: "1.3rem",
-                  marginRight: "12px"
-                }}>
+                <div
+                  style={{
+                    width: "50px",
+                    height: "50px",
+                    borderRadius: "50%",
+                    backgroundColor: "var(--accent)",
+                    color: "#fff",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: "1.3rem",
+                    marginRight: "12px",
+                  }}
+                >
                   {manager.name?.charAt(0).toUpperCase()}
                 </div>
                 <div style={{ flex: "1" }}>
@@ -140,16 +151,26 @@ export default function AdminManagers() {
                 </div>
               </div>
 
-              <div style={{ marginBottom: "15px", paddingBottom: "15px", borderBottom: "1px solid rgba(12, 15, 29, 0.05)" }}>
+              <div
+                style={{
+                  marginBottom: "15px",
+                  paddingBottom: "15px",
+                  borderBottom: "1px solid rgba(12, 15, 29, 0.05)",
+                }}
+              >
                 {manager.company && (
                   <>
-                    <p style={{ margin: "0 0 8px", fontSize: "0.85rem", color: "var(--muted)" }}>Company</p>
+                    <p style={{ margin: "0 0 8px", fontSize: "0.85rem", color: "var(--muted)" }}>
+                      Company
+                    </p>
                     <p style={{ margin: "0 0 15px", fontWeight: "600" }}>{manager.company.name}</p>
                   </>
                 )}
                 {manager.phone && (
                   <>
-                    <p style={{ margin: "0 0 8px", fontSize: "0.85rem", color: "var(--muted)" }}>Phone</p>
+                    <p style={{ margin: "0 0 8px", fontSize: "0.85rem", color: "var(--muted)" }}>
+                      Phone
+                    </p>
                     <p style={{ margin: "0 0 15px", fontWeight: "600" }}>{manager.phone}</p>
                   </>
                 )}

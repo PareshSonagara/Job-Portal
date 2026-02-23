@@ -13,26 +13,26 @@ import { useAuth } from "../state/AuthContext";
  *   logoutFirst={false} → just redirect away (for /login route)
  */
 const roleHome = {
-    "Candidate": "/jobs",
-    "Hiring-Manager": "/manager/dashboard",
-    "Admin": "/admin/dashboard",
+  Candidate: "/jobs",
+  "Hiring-Manager": "/manager/dashboard",
+  Admin: "/admin/dashboard",
 };
 
 export const GuestRoute = ({ children, logoutFirst = false }) => {
-    const { isAuthenticated, user, logout, loading } = useAuth();
+  const { isAuthenticated, user, logout, loading } = useAuth();
 
-    if (loading) return null;
+  if (loading) return null;
 
-    if (isAuthenticated) {
-        if (logoutFirst) {
-            // Logout immediately, then render the auth page
-            logout();
-            return children;
-        }
-        // Not a logout scenario — just redirect to their dashboard
-        const home = roleHome[user?.role] || "/";
-        return <Navigate to={home} replace />;
+  if (isAuthenticated) {
+    if (logoutFirst) {
+      // Logout immediately, then render the auth page
+      logout();
+      return children;
     }
+    // Not a logout scenario — just redirect to their dashboard
+    const home = roleHome[user?.role] || "/";
+    return <Navigate to={home} replace />;
+  }
 
-    return children;
+  return children;
 };

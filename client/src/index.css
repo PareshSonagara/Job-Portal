@@ -1,35 +1,35 @@
 /* ── LinkedIn Design System ───────────────────────────────────────────────── */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
 
 :root {
   color-scheme: light;
 
   /* LinkedIn exact palette */
-  --li-blue:        #0A66C2;   /* primary action blue */
-  --li-blue-dark:   #004182;   /* hover */
-  --li-blue-light:  #EBF3FB;   /* soft tint */
-  --li-green:       #057642;   /* success */
-  --li-red:         #CC1016;   /* error / danger */
-  --li-orange:      #E16B16;   /* warning */
+  --li-blue: #0a66c2; /* primary action blue */
+  --li-blue-dark: #004182; /* hover */
+  --li-blue-light: #ebf3fb; /* soft tint */
+  --li-green: #057642; /* success */
+  --li-red: #cc1016; /* error / danger */
+  --li-orange: #e16b16; /* warning */
 
   /* Neutral grays */
-  --li-bg:          #F3F2EF;   /* LinkedIn page background */
-  --li-surface:     #FFFFFF;   /* card / panel */
-  --li-border:      #E0DEDE;   /* dividers */
-  --li-ink:         #191919;   /* primary text */
-  --li-muted:       #666666;   /* secondary text */
-  --li-subtle:      #A8A8A8;   /* placeholder */
+  --li-bg: #f3f2ef; /* LinkedIn page background */
+  --li-surface: #ffffff; /* card / panel */
+  --li-border: #e0dede; /* dividers */
+  --li-ink: #191919; /* primary text */
+  --li-muted: #666666; /* secondary text */
+  --li-subtle: #a8a8a8; /* placeholder */
 
   /* Aliases used throughout codebase */
-  --ink:    var(--li-ink);
-  --muted:  var(--li-muted);
-  --bg:     var(--li-bg);
-  --panel:  var(--li-surface);
+  --ink: var(--li-ink);
+  --muted: var(--li-muted);
+  --bg: var(--li-bg);
+  --panel: var(--li-surface);
   --accent: var(--li-blue);
   --accent-2: var(--li-blue-dark);
-  --ring:   rgba(10, 102, 194, 0.25);
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
-  --shadow:    0 4px 12px rgba(0,0,0,0.10);
+  --ring: rgba(10, 102, 194, 0.25);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 * {
@@ -38,7 +38,12 @@
 
 body {
   margin: 0;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
   font-size: 14px;
   color: var(--li-ink);
   background-color: var(--li-bg);
@@ -46,7 +51,10 @@ body {
   min-height: 100vh;
 }
 
-button, input, select, textarea {
+button,
+input,
+select,
+textarea {
   font-family: inherit;
   font-size: inherit;
 }
