@@ -19,6 +19,10 @@ export default function Profile() {
     email: user?.email || "",
     contactNumber: user?.contactNumber || "",
     dateOfBirth: user?.dateOfBirth ? user.dateOfBirth.slice(0, 10) : "",
+    location: user?.location || "",
+    bio: user?.bio || "",
+    skills: user?.skills ? user.skills.join(", ") : "",
+    experience: user?.experience || "",
   });
   const [profileErrors, setProfileErrors] = useState({});
 
@@ -50,6 +54,10 @@ export default function Profile() {
         email: user.email || "",
         contactNumber: user.contactNumber || "",
         dateOfBirth: user.dateOfBirth ? user.dateOfBirth.slice(0, 10) : "",
+        location: user.location || "",
+        bio: user.bio || "",
+        skills: user.skills ? user.skills.join(", ") : "",
+        experience: user.experience || "",
       });
     }
   }, [user]);
@@ -94,12 +102,28 @@ export default function Profile() {
         await updateProfile({ resumeURL: res.data?.resumeURL || res.resumeURL });
       }
 
-      // 3. Save text fields
+      // 3. Save text fields via API
+      await userAPI.updateProfile({
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        contactNumber: formData.contactNumber,
+        dateOfBirth: formData.dateOfBirth || undefined,
+        location: formData.location,
+        bio: formData.bio,
+        skills: formData.skills ? formData.skills.split(",").map((s) => s.trim()) : [],
+        experience: formData.experience,
+      }, token);
+      
+      // 4. Update local auth context with new data
       await updateProfile({
         firstName: formData.firstName,
         lastName: formData.lastName,
         contactNumber: formData.contactNumber,
         dateOfBirth: formData.dateOfBirth || undefined,
+        location: formData.location,
+        bio: formData.bio,
+        skills: formData.skills ? formData.skills.split(",").map((s) => s.trim()) : [],
+        experience: formData.experience,
       });
 
       showSuccess("Profile updated successfully!");
@@ -390,6 +414,60 @@ export default function Profile() {
                 disabled={profileLoading}
               />
             </div>
+          </div>
+
+          <div className="grid">
+            <div className="form-group">
+              <label htmlFor="location">Location</label>
+              <input
+                id="location"
+                type="text"
+                name="location"
+                placeholder="City, Country"
+                value={formData.location}
+                onChange={handleProfileChange}
+                disabled={profileLoading}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="bio">Bio</label>
+              <textarea
+                id="bio"
+                name="bio"
+                placeholder="Tell us about yourself..."
+                value={formData.bio}
+                onChange={handleProfileChange}
+                disabled={profileLoading}
+                rows="3"
+              />
+            </div>
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="skills">Skills (comma-separated)</label>
+            <input
+              id="skills"
+              type="text"
+              name="skills"
+              placeholder="e.g. JavaScript, React, Node.js"
+              value={formData.skills}
+              onChange={handleProfileChange}
+              disabled={profileLoading}
+            />
+            <small style={{ color: "var(--muted)" }}>Enter skills separated by commas</small>
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="experience">Experience</label>
+            <textarea
+              id="experience"
+              name="experience"
+              placeholder="Describe your professional experience..."
+              value={formData.experience}
+              onChange={handleProfileChange}
+              disabled={profileLoading}
+              rows="4"
+            />
           </div>
 
           <div className="form-group">

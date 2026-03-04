@@ -13,7 +13,12 @@ export default function AdminCandidates() {
   const [candidates, setCandidates] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
-  const [filterStatus, setFilterStatus] = useState("all");
+
+  const BACKEND = import.meta.env.VITE_API_URL?.replace("/api/v1", "") || "http://localhost:5000";
+  const resolveUrl = (url) => {
+    if (!url) return null;
+    return url.startsWith("http") ? url : `${BACKEND}${url}`;
+  };
 
   useEffect(() => {
     if (user?.role !== "Admin") {
@@ -40,11 +45,7 @@ export default function AdminCandidates() {
     const matchesSearch =
       candidate.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       candidate.email?.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesStatus =
-      filterStatus === "all" ||
-      (filterStatus === "verified" && candidate.emailVerified) ||
-      (filterStatus === "unverified" && !candidate.emailVerified);
-    return matchesSearch && matchesStatus;
+    return matchesSearch;
   });
 
   if (loading) return <Loading />;
@@ -73,16 +74,12 @@ export default function AdminCandidates() {
       {/* Search and Filter */}
       <div
         style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-          gap: "15px",
           marginBottom: "30px",
-          padding: "20px",
-          backgroundColor: "rgba(12, 15, 29, 0.03)",
-          borderRadius: "10px",
+          display: "flex",
+          gap: "10px",
         }}
       >
-        <div className="form-group" style={{ margin: "0" }}>
+        <div className="form-group" style={{ flex: "1", margin: "0" }}>
           <label htmlFor="search">Search Candidates</label>
           <input
             id="search"
@@ -93,31 +90,13 @@ export default function AdminCandidates() {
             style={{ width: "100%", marginTop: "8px" }}
           />
         </div>
-
-        <div className="form-group" style={{ margin: "0" }}>
-          <label htmlFor="status">Email Status</label>
-          <select
-            id="status"
-            value={filterStatus}
-            onChange={(e) => setFilterStatus(e.target.value)}
-            style={{ width: "100%", marginTop: "8px" }}
-          >
-            <option value="all">All Candidates</option>
-            <option value="verified">Email Verified</option>
-            <option value="unverified">Unverified</option>
-          </select>
-        </div>
-
         <div style={{ display: "flex", alignItems: "flex-end" }}>
           <button
-            onClick={() => {
-              setSearchTerm("");
-              setFilterStatus("all");
-            }}
+            onClick={() => setSearchTerm("")}
             className="btn ghost"
-            style={{ width: "100%" }}
+            style={{ padding: "10px 20px" }}
           >
-            Clear Filters
+            Clear
           </button>
         </div>
       </div>
@@ -164,9 +143,18 @@ export default function AdminCandidates() {
                     justifyContent: "center",
                     fontSize: "1.3rem",
                     marginRight: "12px",
+                    overflow: "hidden",
                   }}
                 >
-                  {candidate.name?.charAt(0).toUpperCase()}
+                  {candidate.imageURL ? (
+                    <img
+                      src={resolveUrl(candidate.imageURL)}
+                      alt={candidate.name}
+                      style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                    />
+                  ) : (
+                    candidate.name?.charAt(0).toUpperCase()
+                  )}
                 </div>
                 <div style={{ flex: "1" }}>
                   <h3 style={{ margin: "0" }}>{candidate.name}</h3>
@@ -183,23 +171,6 @@ export default function AdminCandidates() {
                   borderBottom: "1px solid rgba(12, 15, 29, 0.05)",
                 }}
               >
-                <div
-                  style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px" }}
-                >
-                  <span style={{ color: "var(--muted)", fontSize: "0.85rem" }}>Email Status</span>
-                  <span
-                    style={{
-                      padding: "4px 10px",
-                      backgroundColor: candidate.emailVerified ? "#4caf50" : "#ff9800",
-                      color: "#fff",
-                      borderRadius: "12px",
-                      fontSize: "0.8rem",
-                      fontWeight: "600",
-                    }}
-                  >
-                    {candidate.emailVerified ? "Verified" : "Unverified"}
-                  </span>
-                </div>
                 {candidate.location && (
                   <p style={{ margin: "8px 0", fontSize: "0.9rem" }}>📍 {candidate.location}</p>
                 )}

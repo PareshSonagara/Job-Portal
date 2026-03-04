@@ -14,6 +14,12 @@ export default function AdminManagers() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
 
+  const BACKEND = import.meta.env.VITE_API_URL?.replace("/api/v1", "") || "http://localhost:5000";
+  const resolveUrl = (url) => {
+    if (!url) return null;
+    return url.startsWith("http") ? url : `${BACKEND}${url}`;
+  };
+
   useEffect(() => {
     if (user?.role !== "Admin") {
       navigate("/");
@@ -139,9 +145,18 @@ export default function AdminManagers() {
                     justifyContent: "center",
                     fontSize: "1.3rem",
                     marginRight: "12px",
+                    overflow: "hidden",
                   }}
                 >
-                  {manager.name?.charAt(0).toUpperCase()}
+                  {manager.imageURL ? (
+                    <img
+                      src={resolveUrl(manager.imageURL)}
+                      alt={manager.name}
+                      style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                    />
+                  ) : (
+                    manager.name?.charAt(0).toUpperCase()
+                  )}
                 </div>
                 <div style={{ flex: "1" }}>
                   <h3 style={{ margin: "0" }}>{manager.name}</h3>

@@ -37,6 +37,7 @@ import AdminCandidates from "./pages/AdminCandidates.jsx";
 import AdminManagers from "./pages/AdminManagers.jsx";
 import AdminPromote from "./pages/AdminPromote.jsx";
 import CandidateDetails from "./pages/CandidateDetails.jsx";
+import ManagerDetails from "./pages/ManagerDetails.jsx";
 
 const AppShell = () => {
   return (
@@ -166,6 +167,14 @@ const AppShell = () => {
             element={
               <ProtectedRoute requiredRole="Admin">
                 <AdminManagers />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/managers/:id"
+            element={
+              <ProtectedRoute requiredRole="Admin">
+                <ManagerDetails />
               </ProtectedRoute>
             }
           />

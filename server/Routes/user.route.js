@@ -39,6 +39,7 @@ router.get("/check-email/:email", userController.checkEmailExists);
 router.get("/candidates", verifyToken, authorization("Admin"), userController.getCandidates);
 router.get("/candidate/:id", verifyToken, authorization("Admin"), userController.getCandidateById);
 router.get("/hiring-managers", verifyToken, authorization("Admin"), userController.getManagers);
+router.get("/hiring-manager/:id", verifyToken, authorization("Admin"), userController.getManagerById);
 router.put("/promote/:id", verifyToken, authorization("Admin"), userController.promoteUserRole);
 
 export default router;

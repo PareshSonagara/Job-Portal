@@ -79,6 +79,7 @@ export const userAPI = {
   getCandidates: (token) => apiCall("GET", "/user/candidates", null, token),
   getCandidateById: (id, token) => apiCall("GET", `/user/candidate/${id}`, null, token),
   getManagers: (token) => apiCall("GET", "/user/hiring-managers", null, token),
+  getManagerById: (id, token) => apiCall("GET", `/user/hiring-manager/${id}`, null, token),
   promoteUser: (id, data, token) => apiCall("PUT", `/user/promote/${id}`, data, token),
 };
 

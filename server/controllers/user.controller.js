@@ -151,7 +151,7 @@ export const getMe = async (req, res) => {
 // ─── Update Profile ─────────────────────────────────────────────────────────────
 export const updateProfile = async (req, res) => {
   try {
-    const { firstName, lastName, contactNumber, dateOfBirth, imageURL, resumeURL } = req.body;
+    const { firstName, lastName, contactNumber, dateOfBirth, imageURL, resumeURL, location, bio, skills, experience } = req.body;
     const user = await findUserByEmail(req.user?.email);
 
     if (!user) {
@@ -164,6 +164,10 @@ export const updateProfile = async (req, res) => {
     if (dateOfBirth) user.dateOfBirth = dateOfBirth;
     if (imageURL) user.imageURL = imageURL;
     if (resumeURL) user.resumeURL = resumeURL;
+    if (location !== undefined) user.location = location;
+    if (bio !== undefined) user.bio = bio;
+    if (skills !== undefined) user.skills = skills;
+    if (experience !== undefined) user.experience = experience;
 
     await user.save({ validateBeforeSave: false });
 
@@ -325,6 +329,20 @@ export const getManagers = async (req, res) => {
   try {
     const hiringManagers = await allHiringManagersService();
     res.status(200).json({ status: "success", data: hiringManagers });
+  } catch (error) {
+    res.status(500).json({ status: "fail", error });
+  }
+};
+
+// ─── Admin: Get Manager By ID ──────────────────────────────────────────────────
+export const getManagerById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const manager = await findUserById(id);
+    if (!manager || manager.role !== "Hiring-Manager") {
+      return res.status(404).json({ status: "fail", error: "No manager found" });
+    }
+    res.status(200).json({ status: "success", data: manager });
   } catch (error) {
     res.status(500).json({ status: "fail", error });
   }

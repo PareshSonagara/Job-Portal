@@ -92,6 +92,24 @@ const userSchema = mongoose.Schema(
     dateOfBirth: {
       type: Date,
     },
+    location: {
+      type: String,
+      trim: true,
+    },
+    bio: {
+      type: String,
+      trim: true,
+    },
+    skills: [
+      {
+        type: String,
+        trim: true,
+      },
+    ],
+    experience: {
+      type: String,
+      trim: true,
+    },
     imageURL: {
       type: String,
     },
@@ -103,9 +121,6 @@ const userSchema = mongoose.Schema(
       default: "inactive",
       enum: ["active", "inactive", "blocked"],
     },
-
-    confirmationToken: String,
-    confirmationTokenExpires: Date,
 
     passwordChangedAt: Date,
     passwordResetToken: String,
@@ -134,19 +149,6 @@ userSchema.pre("save", function (next) {
 userSchema.methods.comparePassword = function (password, hash) {
   const isPasswordValid = bcrypt.compareSync(password, hash);
   return isPasswordValid;
-};
-
-userSchema.methods.generateConfirmationToken = function () {
-  const token = crypto.randomBytes(32).toString("hex");
-
-  this.confirmationToken = token;
-
-  const date = new Date();
-
-  date.setDate(date.getDate() + 1);
-  this.confirmationTokenExpires = date;
-
-  return token;
 };
 
 userSchema.methods.generatePasswordResetToken = function () {

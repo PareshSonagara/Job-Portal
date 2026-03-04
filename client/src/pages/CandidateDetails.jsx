@@ -7,12 +7,52 @@ import Loading from "../components/Loading";
 import "./Page.css";
 
 export default function CandidateDetails() {
-  const { candidateId } = useParams();
+  const { id } = useParams();
   const navigate = useNavigate();
   const { user, token } = useAuth();
   const { error: showError } = useResponse();
   const [candidate, setCandidate] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  const BACKEND = import.meta.env.VITE_API_URL?.replace("/api/v1", "") || "http://localhost:5000";
+  const resolveUrl = (url) => {
+    if (!url) return null;
+    return url.startsWith("http") ? url : `${BACKEND}${url}`;
+  };
+
+  const calculateProfileCompleteness = (cand) => {
+    if (!cand) return 0;
+    let completedFields = 0;
+    let totalFields = 0;
+
+    const fields = [
+      "firstName",
+      "lastName",
+      "email",
+      "contactNumber",
+      "dateOfBirth",
+      "location",
+      "bio",
+      "imageURL",
+      "resumeURL",
+      "skills",
+      "experience",
+    ];
+
+    fields.forEach((field) => {
+      totalFields++;
+      if (
+        cand[field] &&
+        ((Array.isArray(cand[field]) && cand[field].length > 0) || 
+         (typeof cand[field] === "string" && cand[field].trim()) ||
+         (cand[field] instanceof Date))
+      ) {
+        completedFields++;
+      }
+    });
+
+    return Math.round((completedFields / totalFields) * 100);
+  };
 
   useEffect(() => {
     if (user?.role !== "Admin") {
@@ -23,7 +63,7 @@ export default function CandidateDetails() {
     const loadCandidate = async () => {
       try {
         setLoading(true);
-        const response = await userAPI.getCandidateById(candidateId, token);
+        const response = await userAPI.getCandidateById(id, token);
         setCandidate(response.data || response);
       } catch (err) {
         showError(err.message || "Failed to load candidate");
@@ -34,7 +74,7 @@ export default function CandidateDetails() {
     };
 
     loadCandidate();
-  }, [candidateId, user, token, navigate, showError]);
+  }, [id, user, token, navigate, showError]);
 
   if (loading) return <Loading />;
 
@@ -95,9 +135,18 @@ export default function CandidateDetails() {
                   justifyContent: "center",
                   fontSize: "2rem",
                   marginRight: "20px",
+                  overflow: "hidden",
                 }}
               >
-                {candidate.name?.charAt(0).toUpperCase()}
+                {candidate.imageURL ? (
+                  <img
+                    src={resolveUrl(candidate.imageURL)}
+                    alt={candidate.name}
+                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                  />
+                ) : (
+                  candidate.name?.charAt(0).toUpperCase()
+                )}
               </div>
               <div>
                 <h1 style={{ margin: "0 0 8px" }}>{candidate.name}</h1>
@@ -228,14 +277,20 @@ export default function CandidateDetails() {
                   style={{
                     display: "inline-block",
                     padding: "6px 12px",
-                    backgroundColor: candidate.emailVerified ? "#4caf50" : "#ff9800",
+                    backgroundColor:
+                      candidate.status === "active"
+                        ? "#4caf50"
+                        : candidate.status === "blocked"
+                        ? "#f44336"
+                        : "#ff9800",
                     color: "#fff",
                     borderRadius: "20px",
                     fontSize: "0.85rem",
                     fontWeight: "600",
+                    textTransform: "capitalize",
                   }}
                 >
-                  {candidate.emailVerified ? "Email Verified" : "Unverified"}
+                  {candidate.status}
                 </div>
               </div>
 
@@ -264,13 +319,15 @@ export default function CandidateDetails() {
                 >
                   <div
                     style={{
-                      width: "75%",
+                      width: `${calculateProfileCompleteness(candidate)}%`,
                       height: "100%",
                       backgroundColor: "var(--accent)",
                     }}
                   />
                 </div>
-                <p style={{ margin: "5px 0 0", fontSize: "0.85rem", color: "var(--muted)" }}>75%</p>
+                <p style={{ margin: "5px 0 0", fontSize: "0.85rem", color: "var(--muted)" }}>
+                  {calculateProfileCompleteness(candidate)}%
+                </p>
               </div>
             </div>
           </div>
