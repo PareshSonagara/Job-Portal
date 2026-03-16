@@ -38,28 +38,11 @@ export const ResponseProvider = ({ children }) => {
     [addNotification]
   );
 
-  const info = useCallback(
-    (message, duration) => {
-      return addNotification(message, "info", duration);
-    },
-    [addNotification]
-  );
-
-  const warning = useCallback(
-    (message, duration) => {
-      return addNotification(message, "warning", duration);
-    },
-    [addNotification]
-  );
-
   const value = {
     notifications,
-    addNotification,
     removeNotification,
     success,
     error,
-    info,
-    warning,
   };
 
   return <ResponseContext.Provider value={value}>{children}</ResponseContext.Provider>;

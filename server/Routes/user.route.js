@@ -32,9 +32,6 @@ router.post(
 // Change Password (protected — uses old password to verify identity)
 router.patch("/change-password", verifyToken, userController.changePassword);
 
-// Email check (used during signup)
-router.get("/check-email/:email", userController.checkEmailExists);
-
 // Admin Routes
 router.get("/candidates", verifyToken, authorization("Admin"), userController.getCandidates);
 router.get("/candidate/:id", verifyToken, authorization("Admin"), userController.getCandidateById);

@@ -68,7 +68,6 @@ export const userAPI = {
   signup: (data) => apiCall("POST", "/user/signup", data),
   login: (data) => apiCall("POST", "/user/login", data),
   googleLogin: (credential) => apiCall("POST", "/user/google-login", { credential }),
-  checkEmailExists: (email) => apiCall("GET", `/user/check-email/${email}`),
   getProfile: (token) => apiCall("GET", "/user/me", null, token),
   updateProfile: (data, token) => apiCall("PATCH", "/user/me", data, token),
   changePassword: (data, token) => apiCall("PATCH", "/user/change-password", data, token),

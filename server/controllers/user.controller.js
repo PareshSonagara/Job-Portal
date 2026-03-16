@@ -286,20 +286,6 @@ export const uploadProfileResume = async (req, res) => {
   }
 };
 
-// ─── Check Email Exists ─────────────────────────────────────────────────────────
-export const checkEmailExists = async (req, res) => {
-  try {
-    const { email } = req.params;
-    if (!email) {
-      return res.status(400).json({ status: "fail", error: "Email is required" });
-    }
-    const user = await findUserByEmail(email);
-    res.status(200).json({ status: "success", exists: !!user });
-  } catch (error) {
-    res.status(500).json({ status: "fail", error });
-  }
-};
-
 // ─── Admin: Get All Candidates ──────────────────────────────────────────────────
 export const getCandidates = async (req, res) => {
   try {
